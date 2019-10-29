@@ -6,6 +6,8 @@ import {AppLoading} from "expo";
 import SplashScreen from './pages/SplashScreen';
 import HomeScreen from "./pages/HomeScreen"
 import WarningScreen from './pages/WarningScreen';
+import SignUpScreen from "./pages/SignUpScreen";
+import LogInScreen from "./pages/LogInScreen";
 import * as Font from "expo-font";
 
 
@@ -37,7 +39,9 @@ const AppNavigator = createStackNavigator(
   {
       Splash: SplashScreen,
       Warning: WarningScreen,
-      Home: HomeScreen
+      Home: HomeScreen,
+      SignUp: SignUpScreen,
+      LogIn: LogInScreen
   },
     {
         initialRouteName: 'Splash',
