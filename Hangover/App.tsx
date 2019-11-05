@@ -8,6 +8,7 @@ import HomeScreen from "./pages/HomeScreen"
 import WarningScreen from './pages/WarningScreen';
 import SignUpScreen from "./pages/SignUpScreen";
 import LogInScreen from "./pages/LogInScreen";
+import ProfileScreen from "./pages/ProfileScreen";
 import * as Font from "expo-font";
 
 
@@ -41,7 +42,8 @@ const AppNavigator = createStackNavigator(
       Warning: WarningScreen,
       Home: HomeScreen,
       SignUp: SignUpScreen,
-      LogIn: LogInScreen
+      LogIn: LogInScreen,
+      Profile: ProfileScreen
   },
     {
         initialRouteName: 'Splash',

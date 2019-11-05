@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text, StyleSheet, Image, Animated, TouchableOpacity, TextInput} from 'react-native';
+import {View, Text, StyleSheet, Image, Animated, TouchableOpacity, TextInput, KeyboardAvoidingView} from 'react-native';
 import {ACCENT_GRAY, PRIMARY_DARK,  DEBUG, PRIMARY_LIGHT, SECONDARY, FONT} from '../styles/common';
 import {heightPercentageToDP as hp, widthPercentageToDP as wp} from "react-native-responsive-screen";
 import * as Font from 'expo-font'
@@ -30,14 +30,14 @@ export default class HomeScreen extends React.Component<Props> {
                 <View style={styles.imageContainer}>
                     <Image source={require('../assets/hangover.png')} />
                 </View>
-                <View style={styles.codeContainer}>
-                    <TextInput
-                        style={styles.codeInput}
-                        placeholder="ROOM CODE"
-                        autoCapitalize="none"
-                        onChangeText={(text) => this.checkRoomCode(text)}
-                        placeholderTextColor = {ACCENT_GRAY}/>
-                </View>
+                    <View style={styles.codeContainer}>
+                        <TextInput
+                            style={styles.codeInput}
+                            placeholder="ROOM CODE"
+                            autoCapitalize="none"
+                            onChangeText={(text) => this.checkRoomCode(text)}
+                            placeholderTextColor = {ACCENT_GRAY}/>
+                    </View>
 
                 <View style={styles.btnContainer}>
                     <TouchableOpacity style={styles.loginContainer} onPress={() => {this.props.navigation.navigate("LogIn")}}>
@@ -77,7 +77,7 @@ const styles = StyleSheet.create({
         color: ACCENT_GRAY,
         width: wp(80),
         height: hp(12),
-        borderRadius: hp(2),
+        borderRadius: hp(2.1),
         fontSize: hp(7.2),
         alignItems: 'center',
         justifyContent: 'center',
