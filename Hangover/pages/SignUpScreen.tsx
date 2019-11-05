@@ -28,20 +28,24 @@ export default class SignUpScreen extends React.Component<Props> {
     createNewAccount() {
 
         const formData = new FormData();
-        formData.append("firstName", "TEST");
-        formData.append("lastName", "TEST");
-        formData.append("email", "TEST@queensu.ca");
+        formData.append("first_name", "TEST");
+        formData.append("last_name", "TEST");
+        formData.append("email", "TEST321@queensu.ca");
+        formData.append("date_joined", "2019-10-20T00:00");
+        formData.append("last_joined", "2019-10-20T00:00");
         formData.append("username", this.state.username);
         formData.append("password", this.state.password);
 
         axios({
             method: 'post',
-            url: 'http://10.217.128.231:8000/users/create/',
+            url: 'http://192.168.1.124:8000/users/create/',
             data: formData,
         }).then((res) => {
             console.log(res.data);
         }).catch((error) => {
+            console.log("error caught\n***********")
             console.log(error);
+            console.log(error.response.data);
         });
     }
 
