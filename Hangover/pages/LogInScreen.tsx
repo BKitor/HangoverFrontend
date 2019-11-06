@@ -37,7 +37,7 @@ export default class LogInScreen extends React.Component<Props> {
     }
 
     checkLogin(){
-        console.debug("Checking to see if there is already a value for userUUID");
+        console.log("Checking to see if there is already a value for userUUID");
         AsyncStorage.getItem("userUUID").then((value) => {
             if(value == null) {
                 console.debug("There is no value at userUUID, this is a new player");
@@ -46,16 +46,11 @@ export default class LogInScreen extends React.Component<Props> {
             console.debug("There is a value at userUUID, redirecting to player");
             this.setState({uuid: value, isLoggedIn: true});
             this.props.navigation.navigate("Profile");
-        })
-    }
-
-    componentDidMount(){
-        this.checkLogin.bind(this);
+        });
     }
 
 
     render() {
-        this.checkLogin.bind(this);
         return (
             <View style={styles.background}>
                 <View style={styles.titleContainer}>
@@ -73,7 +68,7 @@ export default class LogInScreen extends React.Component<Props> {
                     </View>
                 </View>
 
-                <TouchableOpacity style={styles.btnContainer} onPress={this.attemptLogin.bind(this)}>
+                <TouchableOpacity style={styles.btnContainer} onPress={this.checkLogin.bind(this)}>
                     <Text style={styles.btnText}>CONTINUE</Text>
                 </TouchableOpacity>
             </View>

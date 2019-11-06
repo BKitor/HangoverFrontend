@@ -1,5 +1,15 @@
 import React from 'react';
-import {View, Text, StyleSheet, Image, Animated, TouchableOpacity, TextInput, KeyboardAvoidingView} from 'react-native';
+import {
+    View,
+    Text,
+    StyleSheet,
+    Image,
+    Animated,
+    TouchableOpacity,
+    TextInput,
+    KeyboardAvoidingView,
+    AsyncStorage
+} from 'react-native';
 import {ACCENT_GRAY, PRIMARY_DARK,  DEBUG, PRIMARY_LIGHT, SECONDARY, FONT} from '../styles/common';
 import {heightPercentageToDP as hp, widthPercentageToDP as wp} from "react-native-responsive-screen";
 import * as Font from 'expo-font'
@@ -30,7 +40,7 @@ export default class SignUpScreen extends React.Component<Props> {
         const formData = new FormData();
         formData.append("first_name", "TEST");
         formData.append("last_name", "TEST");
-        formData.append("email", "TEST321@queensu.ca");
+        formData.append("email", "TEST3211@queensu.ca");
         formData.append("date_joined", "2019-10-20T00:00");
         formData.append("last_joined", "2019-10-20T00:00");
         formData.append("username", this.state.username);
@@ -38,12 +48,13 @@ export default class SignUpScreen extends React.Component<Props> {
 
         axios({
             method: 'post',
-            url: 'http://192.168.1.124:8000/users/create/',
+            url: 'http://10.217.128.231:8000/users/create/',
             data: formData,
         }).then((res) => {
-            console.log(res.data);
+            AsyncStorage.setItem("userUUID", res.data.uuid);
+            console.log("Set async storage to the user ID: " + res.data.uuid);
         }).catch((error) => {
-            console.log("error caught\n***********")
+            console.log("error caught\n***********");
             console.log(error);
             console.log(error.response.data);
         });
