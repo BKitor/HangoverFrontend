@@ -43,7 +43,9 @@ export default class ProfileScreen extends React.Component<Props>{
                     <Text style={styles.btnText}>View Saved Quizzes</Text>
                 </View>
 
-                <TouchableOpacity style={styles.bigBtnContainer} onPress={() => {this.props.navigation.navigate("Home")}}>
+                <TouchableOpacity style={styles.bigBtnContainer} onPress={() => {
+                    this.props.navigation.navigate("Home");
+                    AsyncStorage.setItem("userUUID", "")}}>
                     <Text style={styles.bigBText}>LOG OUT</Text>
                 </TouchableOpacity>
             </View>

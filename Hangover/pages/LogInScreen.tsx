@@ -24,10 +24,10 @@ export default class LogInScreen extends React.Component<Props> {
 
     componentDidMount(){
         AsyncStorage.getItem("userUUID").then((value) => {
-            if (value != null){
+            if (value){
                 this.props.navigation.navigate("Profile");     
             }
-        });
+        }).catch((error)=>{return});
     }
 
     attemptLogin(){
