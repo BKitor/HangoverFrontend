@@ -40,24 +40,25 @@ export default class SignUpScreen extends React.Component<Props> {
         const formData = new FormData();
         formData.append("first_name", "TEST");
         formData.append("last_name", "TEST");
-        formData.append("email", "TEST3211@queensu.ca");
+        formData.append("email", `TEST${Date.now()}@queensu.ca`);
         formData.append("date_joined", "2019-10-20T00:00");
         formData.append("last_joined", "2019-10-20T00:00");
-        formData.append("username", this.state.username);
+        formData.append("username", `${this.state.username}`);
         formData.append("password", this.state.password);
 
         axios({
             method: 'post',
-            url: 'http://10.217.128.231:8000/users/create/',
+            url: 'http://165.22.239.96:8000/users/create/',
             data: formData,
         }).then((res) => {
-            AsyncStorage.setItem("userUUID", res.data.uuid);
-            console.log("Set async storage to the user ID: " + res.data.uuid);
+            AsyncStorage.setItem("userUUID", res.data.id);
+            console.log("Set async storage to the user ID: " + res.data.id);
         }).catch((error) => {
             console.log("error caught\n***********");
             console.log(error);
             console.log(error.response.data);
         });
+        this.props.navigation.pop();
     }
 
     render() {

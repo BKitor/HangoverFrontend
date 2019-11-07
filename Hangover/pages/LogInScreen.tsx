@@ -13,7 +13,7 @@ export default class LogInScreen extends React.Component<Props> {
     state = {
         username: '',
         password: '',
-        uuid: '84d0ff80-2878-4883-819e-e4f35b58b32b',
+        uuid: '',
         isLoggedIn: false
     };
 
@@ -22,10 +22,17 @@ export default class LogInScreen extends React.Component<Props> {
         this.attemptLogin = this.attemptLogin.bind(this);
     }
 
+    componentDidMount(){
+        AsyncStorage.getItem("userUUID").then((value) => {
+            if (value != null){
+                this.props.navigation.navigate("Profile");     
+            }
+        });
+    }
 
     attemptLogin(){
         console.debug("Attempting to retrieve user information for: " + this.state.uuid);
-        axios.get('http://10.217.128.231:8000/users/' + this.state.uuid)
+        axios.get('http://165.22.239.96:8000/users/' + this.state.uuid)
             .then(res => {
             //once it works.
             console.debug("Trying to set internal userUUID value to: " + this.state.uuid);
@@ -45,7 +52,7 @@ export default class LogInScreen extends React.Component<Props> {
             }
             console.debug("There is a value at userUUID, redirecting to player");
             this.setState({uuid: value, isLoggedIn: true});
-            this.props.navigation.navigate("Profile");
+            // this.props.navigation.navigate("Profile");
         });
     }
 

@@ -1,7 +1,8 @@
-import {KeyboardAvoidingView, StyleSheet, Text, TouchableOpacity, View} from "react-native";
+import {KeyboardAvoidingView, StyleSheet, Text, TouchableOpacity, View, AsyncStorage} from "react-native";
 import React from "react";
 import {ACCENT_GRAY, ACCENT_BLUE, PRIMARY_DARK,  DEBUG, PRIMARY_LIGHT, SECONDARY, FONT} from '../styles/common';
 import {heightPercentageToDP as hp, widthPercentageToDP as wp} from "react-native-responsive-screen";
+import axios from "axios";
 
 interface Props {
     navigation: any
@@ -10,12 +11,25 @@ interface Props {
 
 export default class ProfileScreen extends React.Component<Props>{
 
+    state = {
+        username: "",   
+    }
+
+    componentDidMount(){
+        AsyncStorage.getItem("userUUID").then((value)=>{
+            axios.get(`http://165.22.239.96:8000/users/${value}`)
+                .then((res)=>{
+                    this.setState({username:res.data.username})
+                })
+        })
+    }
+
     render(){
         return(
             <View style={styles.background}>
                 <View style={styles.infoContainer}>
-                    <Text style={styles.usernameText}>TimLampen</Text>
-                    <Text style={styles.phoneText}>(444) - 444 - 4444</Text>
+                    <Text style={styles.usernameText}>{this.state.username}</Text>
+                    {/* <Text style={styles.phoneText}>(444) - 444 - 4444</Text> */}
                 </View>
 
 
