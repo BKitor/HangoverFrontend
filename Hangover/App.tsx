@@ -2,20 +2,56 @@ import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { createStackNavigator } from 'react-navigation-stack';
 import { createAppContainer } from "react-navigation";
+import {AppLoading} from "expo";
+import SplashScreen from './pages/SplashScreen';
+import HomeScreen from "./pages/HomeScreen"
+import WarningScreen from './pages/WarningScreen';
+import SignUpScreen from "./pages/SignUpScreen";
+import LogInScreen from "./pages/LogInScreen";
+import ProfileScreen from "./pages/ProfileScreen";
+import * as Font from "expo-font";
 
-import HomeScreen from './pages/HomeScreen';
 
+
+export default class App extends React.Component {
+    state = {fontLoaded: false};
+
+    componentDidMount(){
+        Font.loadAsync({
+            FrancoisOne: require('./assets/fonts/FrancoisOne-Regular.ttf')
+        }).then(() => {
+            this.setState({fontLoaded: true});
+        });
+    }
+
+    render() {
+        if(this.state.fontLoaded)
+            return (
+                <AppContainer/>
+            );
+        else
+            return (
+                <AppLoading/>
+            );
+    }
+}
 
 const AppNavigator = createStackNavigator(
   {
-    Home:
+      Splash: SplashScreen,
+      Warning: WarningScreen,
+      Home: HomeScreen,
+      SignUp: SignUpScreen,
+      LogIn: LogInScreen,
+      Profile: ProfileScreen
+  },
     {
-      screen: HomeScreen,
-    }
-  });
+        initialRouteName: 'Splash',
+        headerMode: "none",
+    });
 
 
-export default createAppContainer(AppNavigator);
+const AppContainer = createAppContainer(AppNavigator);
 
 const styles = StyleSheet.create({
   container: {
