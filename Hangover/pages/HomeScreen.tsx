@@ -1,5 +1,15 @@
 import React from 'react';
-import {View, Text, StyleSheet, Image, Animated, TouchableOpacity, TextInput, KeyboardAvoidingView} from 'react-native';
+import {
+    View,
+    Text,
+    StyleSheet,
+    Image,
+    Animated,
+    TouchableOpacity,
+    TextInput,
+    KeyboardAvoidingView,
+    AsyncStorage
+} from 'react-native';
 import {ACCENT_GRAY, PRIMARY_DARK,  DEBUG, PRIMARY_LIGHT, SECONDARY, FONT} from '../styles/common';
 import {heightPercentageToDP as hp, widthPercentageToDP as wp} from "react-native-responsive-screen";
 import * as Font from 'expo-font'
@@ -10,7 +20,9 @@ interface Props {
 
 export default class HomeScreen extends React.Component<Props> {
     state = {
-        animation : new Animated.Value(0)
+        animation : new Animated.Value(0),
+        loginButtonText: null,
+        loginButtonNavigate: null,
     };
 
     startAnimation(){
@@ -22,11 +34,28 @@ export default class HomeScreen extends React.Component<Props> {
 
     componentWillMount(){
         this.startAnimation();
+        this.checkLoggedIn();
+    }
+
+    componentDidUpdate(){
+        this.checkLoggedIn();
+    }
+
+    checkLoggedIn(){
+        AsyncStorage.getItem("userUUID").then((value) => {
+            if(value == null) {
+                console.debug("There is no value at userUUID, this is a new player");
+                this.setState({loginButtonText: "LOG IN", loginButtonNavigate: "LogIn"});
+                return;
+            }
+            console.debug("There is a value at userUUID, redirecting to player");
+            this.setState({loginButtonText: "ACCOUNT", loginButtonNavigate: "Profile"})
+        });
     }
 
     render() {
         return (
-            <View style={styles.background}>
+            <KeyboardAvoidingView style={styles.background} behavior={'padding'} enabled>
                 <View style={styles.imageContainer}>
                     <Image source={require('../assets/hangover.png')} />
                 </View>
@@ -40,15 +69,15 @@ export default class HomeScreen extends React.Component<Props> {
                     </View>
 
                 <View style={styles.btnContainer}>
-                    <TouchableOpacity style={styles.loginContainer} onPress={() => {this.props.navigation.navigate("LogIn")}}>
-                        <Text style={styles.loginText}>LOG IN</Text>
+                    <TouchableOpacity style={styles.loginContainer} onPress={() => {this.props.navigation.navigate(this.state.loginButtonNavigate)}}>
+                        <Text style={styles.loginText}>{this.state.loginButtonText}</Text>
                     </TouchableOpacity>
 
                     <TouchableOpacity style={styles.signUpContainer} onPress={() => {this.props.navigation.navigate("SignUp")}}>
                         <Text style={styles.signUpText}>SIGN UP</Text>
                     </TouchableOpacity>
                 </View>
-            </View>
+            </KeyboardAvoidingView>
         )
     }
 
@@ -61,26 +90,26 @@ const styles = StyleSheet.create({
     background: {
         flex: 1,
         backgroundColor: PRIMARY_LIGHT,
-        alignItems: 'center'
+        alignItems: 'center',
+        justifyContent: 'center'
     },
     imageContainer: {
         alignItems: 'center',
         marginTop: hp(15)
     },
     codeContainer: {
-        alignItems: 'center',
-        marginTop: hp(5)
-    },
-    codeInput: {
-        fontFamily: FONT,
-        backgroundColor: SECONDARY,
-        color: ACCENT_GRAY,
+        marginTop: hp(5),
         width: wp(80),
         height: hp(12),
         borderRadius: hp(2.1),
-        fontSize: hp(7.2),
+        backgroundColor: SECONDARY,
         alignItems: 'center',
         justifyContent: 'center',
+    },
+    codeInput: {
+        fontFamily: FONT,
+        color: ACCENT_GRAY,
+        fontSize: hp(7.2),
         textAlign: 'center'
     },
     loginContainer: {
@@ -111,10 +140,12 @@ const styles = StyleSheet.create({
         fontFamily: FONT,
         fontSize: wp(7),
         color: ACCENT_GRAY,
+        textAlign: 'center'
     },
     signUpText: {
         fontFamily: FONT,
         fontSize: wp(7),
         color: PRIMARY_DARK,
+        textAlign: 'center'
     },
 });

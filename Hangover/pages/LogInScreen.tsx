@@ -32,8 +32,9 @@ export default class LogInScreen extends React.Component<Props> {
 
     attemptLogin(){
         console.debug("Attempting to retrieve user information for: " + this.state.uuid);
-        axios.get('http://165.22.239.96:8000/users/' + this.state.uuid)
+        axios.get('http://tixo.ca:7537/users/' + this.state.uuid)
             .then(res => {
+            //once it works.
             //once it works.
             console.debug("Trying to set internal userUUID value to: " + this.state.uuid);
             AsyncStorage.setItem("userUUID", res.data.uuid).then(() => {

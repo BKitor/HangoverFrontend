@@ -48,7 +48,7 @@ export default class SignUpScreen extends React.Component<Props> {
 
         axios({
             method: 'post',
-            url: 'http://165.22.239.96:8000/users/create/',
+            url: 'http://tixo.ca:7537/users/create/',
             data: formData,
         }).then((res) => {
             AsyncStorage.setItem("userUUID", res.data.id);

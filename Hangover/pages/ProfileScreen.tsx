@@ -17,7 +17,7 @@ export default class ProfileScreen extends React.Component<Props>{
 
     componentDidMount(){
         AsyncStorage.getItem("userUUID").then((value)=>{
-            axios.get(`http://165.22.239.96:8000/users/${value}`)
+            axios.get(`http://tixo.ca:7537/users/${value}`)
                 .then((res)=>{
                     this.setState({username:res.data.username})
                 })
