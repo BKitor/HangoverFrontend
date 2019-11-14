@@ -3,6 +3,7 @@ import {View, Text, StyleSheet, Image, Animated, TouchableOpacity} from 'react-n
 import {ACCENT_GRAY, PRIMARY_DARK,  DEBUG, PRIMARY_LIGHT, FONT} from '../styles/common';
 import {heightPercentageToDP as hp, widthPercentageToDP as wp} from "react-native-responsive-screen";
 import * as Font from 'expo-font'
+import styles from '../styles/warningscreenstyles.js';
 
 interface Props {
     navigation: any
@@ -48,44 +49,3 @@ export default class WarningScreen extends React.Component<Props> {
         )
     }
 }
-
-const styles = StyleSheet.create({
-    background: {
-        flex: 1,
-        backgroundColor: PRIMARY_LIGHT,
-    },
-    titleContainer:{
-        alignItems: 'center',
-        marginTop: hp(20),
-    },
-    title: {
-        fontFamily: FONT,
-        fontSize: wp(15),
-        color: ACCENT_GRAY
-    },
-    subtitleContainer: {
-        alignItems: 'center',
-        marginTop: hp(5)
-    },
-    btnContainer: {
-        position: 'absolute',
-        bottom: 0,
-        width: wp(100),
-        height: hp(10),
-        backgroundColor: PRIMARY_DARK,
-        alignItems: 'center',
-        justifyContent: 'center'
-    },
-    btnText: {
-        fontFamily: FONT,
-        fontSize: wp(7),
-        color: ACCENT_GRAY,
-    },
-    subtitle: {
-        fontFamily: FONT,
-        fontSize: wp(7),
-        color: ACCENT_GRAY,
-        textAlign: 'center',
-        width: wp(75)
-    }
-});
