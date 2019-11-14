@@ -15,7 +15,7 @@ import {heightPercentageToDP as hp, widthPercentageToDP as wp} from "react-nativ
 import * as Font from 'expo-font'
 import Icon from 'react-native-vector-icons/FontAwesome'
 import axios from 'axios'
-import styles from "../styles/homescreenstyles";
+import styles from "../styles/signupscreenstyles";
 
 
 interface Props {

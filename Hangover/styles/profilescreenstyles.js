@@ -1,5 +1,6 @@
 import {StyleSheet} from "react-native";
-import {hp, widthPercentageToDP as wp} from "react-native-responsive-screen";
+import {heightPercentageToDP as hp, widthPercentageToDP as wp} from "react-native-responsive-screen";
+import {ACCENT_BLUE, ACCENT_GRAY, FONT, PRIMARY_DARK} from "./common";
 
 export default styles = StyleSheet.create({
     bigBtnContainer: {

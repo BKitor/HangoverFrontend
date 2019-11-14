@@ -1,5 +1,5 @@
 import {StyleSheet} from "react-native";
-import {heightPercentageToDP as hp, wp} from "react-native-responsive-screen";
+import {heightPercentageToDP as hp, widthPercentageToDP as wp} from "react-native-responsive-screen";
 import {ACCENT_GRAY, FONT, PRIMARY_DARK} from "./common";
 
 export default styles = StyleSheet.create({
