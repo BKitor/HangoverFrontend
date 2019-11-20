@@ -53,7 +53,7 @@ export default class SignUpScreen extends React.Component<Props> {
             url: serverAddress+'/users/create/',
             data: formData,
         }).then((res) => {
-            AsyncStorage.setItem("userUUID", res.data.id);
+            AsyncStorage.setItem("id", res.data.id);
             console.log("Set async storage to the user ID: " + res.data.id);
         }).catch((error) => {
             console.log("error caught\n***********");
