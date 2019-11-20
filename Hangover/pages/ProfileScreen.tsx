@@ -4,6 +4,7 @@ import {ACCENT_GRAY, ACCENT_BLUE, PRIMARY_DARK,  DEBUG, PRIMARY_LIGHT, SECONDARY
 import {heightPercentageToDP as hp, widthPercentageToDP as wp} from "react-native-responsive-screen";
 import axios from "axios";
 import styles from "../styles/profilescreenstyles";
+import { serverAddress } from '../Server-Address';
 
 interface Props {
     navigation: any
@@ -18,7 +19,7 @@ export default class ProfileScreen extends React.Component<Props>{
 
     componentDidMount(){
         AsyncStorage.getItem("userUUID").then((value)=>{
-            axios.get(`http://tixo.ca:7537/users/${value}`)
+            axios.get(serverAddress+`/users/${value}`)
                 .then((res)=>{
                     this.setState({username:res.data.username})
                 })

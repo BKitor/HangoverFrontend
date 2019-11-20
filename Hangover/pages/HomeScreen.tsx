@@ -39,9 +39,11 @@ export default class HomeScreen extends React.Component<Props> {
     }
 
     componentDidUpdate(){
-        this.checkLoggedIn();
+        console.debug("componentDidUpdate()");
+        //this.checkLoggedIn(); 
     }
 
+    // Calls componentDidUpdate() which results in an infinite loop
     checkLoggedIn(){
         AsyncStorage.getItem("userUUID").then((value) => {
             if(value == null) {

@@ -16,6 +16,7 @@ import * as Font from 'expo-font'
 import Icon from 'react-native-vector-icons/FontAwesome'
 import axios from 'axios'
 import styles from "../styles/signupscreenstyles";
+import { serverAddress } from '../Server-Address';
 
 
 interface Props {
@@ -49,7 +50,7 @@ export default class SignUpScreen extends React.Component<Props> {
 
         axios({
             method: 'post',
-            url: 'http://tixo.ca:7537/users/create/',
+            url: serverAddress+'/users/create/',
             data: formData,
         }).then((res) => {
             AsyncStorage.setItem("userUUID", res.data.id);

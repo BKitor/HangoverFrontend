@@ -5,6 +5,7 @@ import {heightPercentageToDP as hp, widthPercentageToDP as wp} from "react-nativ
 import Icon from 'react-native-vector-icons/FontAwesome';
 import axios from 'axios';
 import styles from "../styles/loginscreenstyles";
+import { serverAddress } from '../Server-Address';
 
 interface Props {
     navigation: any
@@ -33,7 +34,7 @@ export default class LogInScreen extends React.Component<Props> {
 
     attemptLogin(){
         console.debug("Attempting to retrieve user information for: " + this.state.uuid);
-        axios.get('http://tixo.ca:7537/users/' + this.state.uuid)
+        axios.get(serverAddress + '/users/' + this.state.uuid)
             .then(res => {
             //once it works.
             //once it works.
@@ -47,6 +48,7 @@ export default class LogInScreen extends React.Component<Props> {
 
     checkLogin(){
         console.log("Checking to see if there is already a value for userUUID");
+        console.debug(AsyncStorage);
         AsyncStorage.getItem("userUUID").then((value) => {
             if(value == null) {
                 console.debug("There is no value at userUUID, this is a new player");
