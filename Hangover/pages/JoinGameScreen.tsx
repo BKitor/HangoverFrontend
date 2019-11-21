@@ -24,7 +24,7 @@ export default class JoinGameScreen extends React.Component<Props>{
     render(){
         return(
             <KeyboardAvoidingView>
-                <ImageBackground source={'../assets/backgroundImage.png'} style={styles.background}>
+                <ImageBackground source={require('../assets/repeated-background.png')} style={styles.background}>
                     <Text style={styles.gameTitleText}>{this.state.game.game_name}</Text>
                     <Text style={styles.playersHeaderText}>Players Joined</Text>
                     <View style={styles.playerTilesView}>
