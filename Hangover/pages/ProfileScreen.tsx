@@ -1,10 +1,9 @@
 import {KeyboardAvoidingView, StyleSheet, Text, TouchableOpacity, View, AsyncStorage} from "react-native";
 import React from "react";
-import {ACCENT_GRAY, ACCENT_BLUE, PRIMARY_DARK,  DEBUG, PRIMARY_LIGHT, SECONDARY, FONT} from '../styles/common';
+import {ACCENT_GRAY, ACCENT_BLUE, PRIMARY_DARK,  DEBUG, PRIMARY_LIGHT, SECONDARY, FONT, serverAddress} from '../styles/common';
 import {heightPercentageToDP as hp, widthPercentageToDP as wp} from "react-native-responsive-screen";
 import axios from "axios";
 import styles from "../styles/profilescreenstyles";
-import { serverAddress } from '../Server-Address';
 
 interface Props {
     navigation: any

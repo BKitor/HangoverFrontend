@@ -10,5 +10,5 @@ export const ACCENT_RED_DARK = '#B3DDEF';
 export const BASE = '#fff';
 export const FONT = 'FrancoisOne';
 export const DEBUG = true;
-
+export const serverAddress = "http://10.217.83.8:8000";
 

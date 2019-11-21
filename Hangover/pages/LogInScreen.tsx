@@ -1,11 +1,10 @@
 import React from 'react';
 import {View, Text, StyleSheet, Image, Animated, TouchableOpacity, TextInput, KeyboardAvoidingView, AsyncStorage} from 'react-native';
-import {ACCENT_GRAY, PRIMARY_DARK,  DEBUG, PRIMARY_LIGHT, SECONDARY, FONT} from '../styles/common';
+import {ACCENT_GRAY, PRIMARY_DARK,  DEBUG, PRIMARY_LIGHT, SECONDARY, FONT, serverAddress} from '../styles/common';
 import {heightPercentageToDP as hp, widthPercentageToDP as wp} from "react-native-responsive-screen";
 import Icon from 'react-native-vector-icons/FontAwesome';
 import axios from 'axios';
 import styles from "../styles/loginscreenstyles";
-import { serverAddress } from '../Server-Address';
 
 interface Props {
     navigation: any
