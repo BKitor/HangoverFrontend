@@ -1,37 +1,65 @@
 import { StyleSheet } from "react-native";
+import {heightPercentageToDP as hp, widthPercentageToDP as wp} from "react-native-responsive-screen";
 import { FONT } from './common';
 
 export default styles = StyleSheet.create({
-    background: {
-        flex: 1,
-        flexDirection: "row",
-        justifyContent: "space-between",
-        width: '100%',
-        height: '100%',
+    backgroundView:{
+        flex:1,
+        alignItems:'center'
     },
-    gameTitleText: {
-        flex:0.1,
-        fontFamily: FONT
+
+    titleContainer:{
+        alignItems:"center",
+        justifyContent:"center",
+        height:hp(30),
+        width:wp(100),
     },
-    playersHeaderText: {
-        flex:0.1,
-        fontFamily: FONT,
+    titleText:{
+        fontFamily:FONT,
+        fontSize:wp(14),
     },
-    playerTilesViewLeft:{
-        flex:0.5,
+
+    
+    playersJoinedContainer:{
+        height:hp(50),
+        width:wp(70),
+        backgroundColor:'red',
     },
-    playerTilesViewRight:{
-        flex:0.5,
+    playersJoinedText:{},
+    playerTagList:{},
+    playerTagContainer:{
+        backgroundColor:'white',
+        flexDirection:'row',
+        justifyContent:'space-between',
+        alignItems:'center',
+        borderRadius:5,
     },
-    playerTileText: {
-        fontFamily: FONT,
+    playerTagText:{
+        fontFamily:FONT
     },
-    playerNameFieldTextInput: {
-        flex:0.1,
-        fontFamily: FONT,
+
+    userInputContainer:{
+        height:hp(25),
     },
-    footerText: {
-        flex:0.1,
-        fontFamily: FONT,
+    playerNameInput:{
+        height:'100%',
+        width:'100%',
+        borderRadius:10,
+        fontFamily:FONT,
+        fontSize:wp(14),
+        backgroundColor:'white'
+    },
+
+    footerContainer:{
+        position:'absolute',
+        bottom:0,
+        width:wp(100),
+        height:hp(15),
+        justifyContent:'center',
+        alignItems:'center',
+    },
+    footerText:{
+        fontFamily:FONT,
+        fontSize:wp(7),
     },
 });

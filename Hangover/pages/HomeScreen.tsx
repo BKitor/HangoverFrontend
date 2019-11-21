@@ -43,7 +43,7 @@ export default class HomeScreen extends React.Component<Props> {
     //deleted this!!!
     componentDidMount(){
         axios.get(`http:tixo.ca:7537/game/t`).then((res)=>{
-            console.log(res.data)
+            // console.log(res.data)
             this.props.navigation.push("JoinGame", res.data);//TODO:: impliment navigaiton
         });
     }    //deleted this!!!
@@ -97,8 +97,8 @@ export default class HomeScreen extends React.Component<Props> {
 
     checkRoomCode(text){//check to see if the room code is valid and auto join
         axios.get(`http:tixo.ca:7537/game/${text}`).then((res)=>{
-            console.log(res.data)
-            this.props.navigation.push("JoinGame", res.data);//TODO:: impliment navigaiton
+            // console.log(res.data)
+            this.props.navigation.navigate("JoinGame", {game:res.data,});//TODO:: impliment navigaiton
         }).catch((res)=>{
             Alert.alert(
                 "Bad room name",
