@@ -24,13 +24,14 @@ export default class LogInScreen extends React.Component<Props> {
     }
 
     componentDidMount(){
-        AsyncStorage.getItem("userUUID").then((value) => {
+        AsyncStorage.getItem("id").then((value) => {
             if (value){
                 this.props.navigation.navigate("Profile");     
             }
         }).catch((error)=>{return});
     }
 
+    // Is run in the constructor to attempt to auto-login the user if they are currently logged in
     attemptLogin(){
         console.debug("Attempting to retrieve user information for: " + this.state.uuid);
         axios.get(serverAddress + '/users/' + this.state.uuid)
@@ -38,24 +39,56 @@ export default class LogInScreen extends React.Component<Props> {
             //once it works.
             //once it works.
             console.debug("Trying to set internal userUUID value to: " + this.state.uuid);
-            AsyncStorage.setItem("userUUID", res.data.uuid).then(() => {
+            AsyncStorage.setItem("id", res.data.uuid).then(() => {
                 console.debug("Set internal userUUID value to " + this.state.uuid);
                 this.checkLogin.bind(this);
             });
         });
     }
 
+    // Is run when the CONTINUE button is pressed
     checkLogin(){
         console.log("Checking to see if there is already a value for userUUID");
-        console.debug(AsyncStorage);
-        AsyncStorage.getItem("userUUID").then((value) => {
-            if(value == null) {
-                console.debug("There is no value at userUUID, this is a new player");
-                return;
+        //this.debugAsyncStorage();
+        AsyncStorage.getItem("id").then((value) => {
+            if(value == null || value == "") { // The user is not currently logged in (or has never been)
+                console.debug("There is no value at userUUID");
+                if(this.state.username == null || this.state.username == ""){
+                    console.debug("Username must not be empty");
+                    return;
+                }
+                axios.get(serverAddress + '/users/' + this.state.username)
+                .then(res => {
+                    if(res.status != 200){
+                        console.debug("Bad request");
+                        return;
+                    }
+                    if(res.data['password'] == this.state.password){
+                        AsyncStorage.setItem("id", res.data['id']).then(value =>
+                        this.setState({uuid: value, isLoggedIn: true}),
+                        this.props.navigation.navigate("Profile"))
+                    } else {
+                        console.log("Incorrect password");
+                    }
+                })
+                .catch((res)=>{
+                    console.debug("User not found");
+                });
+            } else {
+                console.debug("There is a value at userUUID, redirecting to player");
             }
-            console.debug("There is a value at userUUID, redirecting to player");
-            this.setState({uuid: value, isLoggedIn: true});
-            // this.props.navigation.navigate("Profile");
+        });
+    }
+
+    // Prints out all contents of the user's local storage
+    debugAsyncStorage(){
+        AsyncStorage.getAllKeys((err, keys) => {
+            AsyncStorage.multiGet(keys, (error, stores) => {
+                stores.map((result, i, store) => {
+                    console.debug({ [store[i][0]]: store[i][1] });
+                    return true;
+                });
+            });
         });
     }
 

@@ -17,7 +17,7 @@ export default class ProfileScreen extends React.Component<Props>{
     }
 
     componentDidMount(){
-        AsyncStorage.getItem("userUUID").then((value)=>{
+        AsyncStorage.getItem("id").then((value)=>{
             axios.get(serverAddress+`/users/${value}`)
                 .then((res)=>{
                     this.setState({username:res.data.username})
@@ -45,8 +45,9 @@ export default class ProfileScreen extends React.Component<Props>{
                 </View>
 
                 <TouchableOpacity style={styles.bigBtnContainer} onPress={() => {
-                    this.props.navigation.navigate("Home");
-                    AsyncStorage.setItem("userUUID", "")}}>
+                    AsyncStorage.setItem("id", "").then(
+                    this.props.navigation.navigate("Home"));
+                    }}>
                     <Text style={styles.bigBText}>LOG OUT</Text>
                 </TouchableOpacity>
             </View>

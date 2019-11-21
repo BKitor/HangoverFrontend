@@ -45,8 +45,8 @@ export default class HomeScreen extends React.Component<Props> {
 
     // Calls componentDidUpdate() which results in an infinite loop
     checkLoggedIn(){
-        AsyncStorage.getItem("userUUID").then((value) => {
-            if(value == null) {
+        AsyncStorage.getItem("id").then((value) => {
+            if(value == null || value == "") {
                 console.debug("There is no value at userUUID, this is a new player");
                 this.setState({loginButtonText: "LOG IN", loginButtonNavigate: "LogIn"});
                 return;
