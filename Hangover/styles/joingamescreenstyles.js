@@ -5,13 +5,16 @@ import { FONT } from './common';
 export default styles = StyleSheet.create({
     backgroundView:{
         flex:1,
-        alignItems:'center'
+        alignItems:'center',
+        justifyContent:'center',
     },
 
     titleContainer:{
+        position:'absolute',
+        top:0,
         alignItems:"center",
-        justifyContent:"center",
-        height:hp(30),
+        // justifyContent:"center",
+        height:hp(20),
         width:wp(100),
     },
     titleText:{
@@ -19,31 +22,32 @@ export default styles = StyleSheet.create({
         fontSize:wp(14),
     },
 
-    
     playersJoinedContainer:{
-        height:hp(50),
         width:wp(70),
-        backgroundColor:'red',
     },
-    playersJoinedText:{},
+    playersJoinedText:{
+        fontFamily:FONT,
+        fontSize:wp(10)
+    },
     playerTagList:{},
     playerTagContainer:{
+        marginTop:hp(2),
         backgroundColor:'white',
         flexDirection:'row',
         justifyContent:'space-between',
         alignItems:'center',
-        borderRadius:5,
+        borderRadius:10,
     },
     playerTagText:{
-        fontFamily:FONT
+        fontFamily:FONT,
+        fontSize:hp(3),
     },
 
     userInputContainer:{
-        height:hp(25),
     },
     playerNameInput:{
-        height:'100%',
-        width:'100%',
+        height:hp(10),
+        width: wp(70),
         borderRadius:10,
         fontFamily:FONT,
         fontSize:wp(14),

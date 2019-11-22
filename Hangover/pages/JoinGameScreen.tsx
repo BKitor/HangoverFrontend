@@ -41,6 +41,7 @@ export default class JoinGameScreen extends React.Component<Props>{
 
     render() {
         return (
+
             <ImageBackground source={require('../assets/repeated-background.png')} style={styles.backgroundView}>
                 <View style={styles.titleContainer}>
                     <Text style={styles.titleText}>{this.state.game.game_name}</Text>
@@ -48,12 +49,15 @@ export default class JoinGameScreen extends React.Component<Props>{
 
                 <View style={styles.playerJoinedContainer}>
                     <Text style={styles.playersJoinedText}>Players Joined</Text>
-                    <FlatList 
+                    
+                    <PlayerList playerNameArr={this.state.players}/>
+                    
+                    {/* <FlatList 
                         data={this.state.players}
                         renderItem={({ item, index }) =>  <PlayerTag playerName={item} index={index}/>} 
                         style={styles.playerTagList}
                         keyExtractor={(item, index) => index.toString()} //warning suppression
-                    />
+                    /> */}
 
                 </View>
 
@@ -65,11 +69,13 @@ export default class JoinGameScreen extends React.Component<Props>{
                     <Text style={styles.footerText}>Waiting for players to join</Text>
                 </View>
             </ImageBackground>
+
         );
     }
 }
 
-function PlayerTag({playerName, index}) {
+
+function PlayerTag({playerName}) {
     // if(index%2){
     //     return(
     //         <View style={{ flexDirection:'row', }}>
@@ -90,4 +96,15 @@ function PlayerTag({playerName, index}) {
         </View>        
     );
 
+}
+
+function PlayerList({playerNameArr}){
+    const items = playerNameArr.map((name)=>{
+        return <PlayerTag key={name} playerName={name}/>
+    }) 
+    return(
+        <React.Fragment>
+            {items}
+        </React.Fragment>
+    )
 }
