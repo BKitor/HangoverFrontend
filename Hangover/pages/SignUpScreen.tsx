@@ -10,7 +10,7 @@ import {
     KeyboardAvoidingView,
     AsyncStorage
 } from 'react-native';
-import {ACCENT_GRAY, PRIMARY_DARK,  DEBUG, PRIMARY_LIGHT, SECONDARY, FONT} from '../styles/common';
+import {ACCENT_GRAY, PRIMARY_DARK,  DEBUG, PRIMARY_LIGHT, SECONDARY, FONT, serverAddress} from '../styles/common';
 import {heightPercentageToDP as hp, widthPercentageToDP as wp} from "react-native-responsive-screen";
 import * as Font from 'expo-font'
 import Icon from 'react-native-vector-icons/FontAwesome'
@@ -49,10 +49,10 @@ export default class SignUpScreen extends React.Component<Props> {
 
         axios({
             method: 'post',
-            url: 'http://tixo.ca:7537/users/create/',
+            url: serverAddress+'/users/create/',
             data: formData,
         }).then((res) => {
-            AsyncStorage.setItem("userUUID", res.data.id);
+            AsyncStorage.setItem("id", res.data.id);
             console.log("Set async storage to the user ID: " + res.data.id);
         }).catch((error) => {
             console.log("error caught\n***********");

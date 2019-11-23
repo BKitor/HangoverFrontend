@@ -1,6 +1,6 @@
 import {KeyboardAvoidingView, StyleSheet, Text, TouchableOpacity, View, AsyncStorage} from "react-native";
 import React from "react";
-import {ACCENT_GRAY, ACCENT_BLUE, PRIMARY_DARK,  DEBUG, PRIMARY_LIGHT, SECONDARY, FONT} from '../styles/common';
+import {ACCENT_GRAY, ACCENT_BLUE, PRIMARY_DARK,  DEBUG, PRIMARY_LIGHT, SECONDARY, FONT, serverAddress} from '../styles/common';
 import {heightPercentageToDP as hp, widthPercentageToDP as wp} from "react-native-responsive-screen";
 import axios from "axios";
 import styles from "../styles/profilescreenstyles";
@@ -17,8 +17,8 @@ export default class ProfileScreen extends React.Component<Props>{
     }
 
     componentDidMount(){
-        AsyncStorage.getItem("userUUID").then((value)=>{
-            axios.get(`http://tixo.ca:7537/users/${value}`)
+        AsyncStorage.getItem("id").then((value)=>{
+            axios.get(serverAddress+`/users/${value}`)
                 .then((res)=>{
                     this.setState({username:res.data.username})
                 })
@@ -45,8 +45,9 @@ export default class ProfileScreen extends React.Component<Props>{
                 </View>
 
                 <TouchableOpacity style={styles.bigBtnContainer} onPress={() => {
-                    this.props.navigation.navigate("Home");
-                    AsyncStorage.setItem("userUUID", "")}}>
+                    AsyncStorage.setItem("id", "").then(
+                    this.props.navigation.navigate("Home"));
+                    }}>
                     <Text style={styles.bigBText}>LOG OUT</Text>
                 </TouchableOpacity>
             </View>
