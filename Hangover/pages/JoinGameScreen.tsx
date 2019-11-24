@@ -82,7 +82,7 @@ export default class JoinGameScreen extends React.Component<Props>{
     if(res.current_question && this.state.player_uuid){
       console.log(res.current_question)
       // This is where navigation to a next question would happen
-      // this.props.navigate("question", game=this.state.game_naem)
+      this.props.navigation.navigate("PlayRound", {game:res})
     }
     return true
   }
