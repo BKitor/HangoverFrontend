@@ -1,12 +1,19 @@
-import { StyleSheet } from "react-native";
+import { StyleSheet, Dimensions } from "react-native";
 import {heightPercentageToDP as hp, widthPercentageToDP as wp} from "react-native-responsive-screen";
 import { FONT } from './common';
 
 export default styles = StyleSheet.create({
+    keyboardAvoidingView:{
+        flex:1,
+        justifyContent:'center',
+        alignItems:'center',
+    },
     backgroundView:{
         flex:1,
         alignItems:'center',
         justifyContent:'center',
+        width:wp(100),
+        height:hp(100),
     },
 
     titleContainer:{
@@ -27,7 +34,8 @@ export default styles = StyleSheet.create({
     },
     playersJoinedText:{
         fontFamily:FONT,
-        fontSize:wp(10)
+        fontSize:wp(10),
+        marginBottom:hp(5),
     },
     playerTagList:{},
     playerTagContainer:{
@@ -44,13 +52,32 @@ export default styles = StyleSheet.create({
     },
 
     userInputContainer:{
+        marginTop:hp(15),
+        width:wp(70),
+    },
+    nicknameText:{
+        fontFamily:FONT,
     },
     playerNameInput:{
         height:hp(10),
         width: wp(70),
         borderRadius:10,
+        borderWidth:2,
         fontFamily:FONT,
-        fontSize:wp(14),
+        textAlign:'center',
+        fontSize:wp(6),
+        backgroundColor:'white'
+    },
+    playerNameBadInput:{
+        height:hp(10),
+        width: wp(70),
+        borderRadius:10,
+        borderWidth:2,
+        borderColor:'red',
+        color:'red',
+        fontFamily:FONT,
+        textAlign:'center',
+        fontSize:wp(6),
         backgroundColor:'white'
     },
 
@@ -64,6 +91,6 @@ export default styles = StyleSheet.create({
     },
     footerText:{
         fontFamily:FONT,
-        fontSize:wp(7),
+        fontSize:wp(6),
     },
 });
