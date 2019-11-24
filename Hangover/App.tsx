@@ -9,6 +9,9 @@ import WarningScreen from './pages/WarningScreen';
 import SignUpScreen from "./pages/SignUpScreen";
 import LogInScreen from "./pages/LogInScreen";
 import ProfileScreen from "./pages/ProfileScreen";
+import CreateQuizScreen from "./pages/CreateQuizScreen";
+import MakeNewQuizScreen from "./pages/MakeNewQuizScreen";
+import SavedQuizzesScreen from "./pages/SavedQuizzesScreen";
 import * as Font from "expo-font";
 
 
@@ -43,7 +46,10 @@ const AppNavigator = createStackNavigator(
       Home: HomeScreen,
       SignUp: SignUpScreen,
       LogIn: LogInScreen,
-      Profile: ProfileScreen
+      Profile: ProfileScreen,
+      CreateQuiz: CreateQuizScreen,
+      MakeNewQuiz: MakeNewQuizScreen,
+      SavedQuizzes: SavedQuizzesScreen
   },
     {
         initialRouteName: 'Splash',

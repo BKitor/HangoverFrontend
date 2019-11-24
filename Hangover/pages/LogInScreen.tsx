@@ -71,7 +71,8 @@ export default class LogInScreen extends React.Component<Props> {
                         console.log("Incorrect password");
                     }
                 })
-                .catch((res)=>{
+                .catch((error)=>{
+                    console.debug(error);
                     console.debug("User not found");
                 });
             } else {

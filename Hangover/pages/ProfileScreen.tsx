@@ -38,12 +38,13 @@ export default class ProfileScreen extends React.Component<Props>{
                     <Text style={styles.btnText}>Join Room</Text>
                 </View>
                 <View style={styles.btnContainer}>
-                    <Text style={styles.btnText}>Create New Quiz</Text>
+                    <TouchableOpacity style={styles.signUpContainer} onPress={() => {this.props.navigation.navigate("CreateQuiz")}}>
+                        <Text style={styles.btnText}>Create New Quiz</Text>
+                    </TouchableOpacity>
                 </View>
                 <View style={styles.btnContainer}>
                     <Text style={styles.btnText}>View Saved Quizzes</Text>
                 </View>
-
                 <TouchableOpacity style={styles.bigBtnContainer} onPress={() => {
                     AsyncStorage.setItem("id", "").then(
                     this.props.navigation.navigate("Home"));
