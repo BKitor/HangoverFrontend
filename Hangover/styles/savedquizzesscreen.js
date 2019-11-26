@@ -25,7 +25,7 @@ export default styles = StyleSheet.create({
         textAlign: 'center'
     },
     listContainer: {
-        width: wp(90),
+        width: wp(100),
         height: hp(70),
         top: hp(20),
         alignItems: 'center',
@@ -47,15 +47,15 @@ export default styles = StyleSheet.create({
         width: wp(90),
         height: hp(12),
         backgroundColor: BASE,
+        marginHorizontal: wp(5),
         alignItems: 'center',
         justifyContent: 'center',
         borderRadius: hp(2),
-        marginBottom: hp(2.5),
+        marginBottom: hp(5),
         shadowColor: "#000",
-        shadowOffset: {width: 0, height: 0},
+        shadowOffset: {width: 3, height: 0},
         shadowRadius: 5,
-        shadowOpacity: 0.4,
-        elevation: 14,
+        shadowOpacity: 0.8,
     },
     quizText: {
         fontFamily: FONT,
