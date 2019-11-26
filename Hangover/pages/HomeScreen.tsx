@@ -40,17 +40,6 @@ export default class HomeScreen extends React.Component<Props> {
         this.checkLoggedIn();
     }
 
-    //deleted this!!!
-    componentDidMount(){
-        axios.get(`http:tixo.ca:7537/game/t`).then((res)=>{
-            // console.log(res.data)
-            this.props.navigation.push("JoinGame", res.data);//TODO:: impliment navigaiton
-        });
-    }    //deleted this!!!
-
-    componentDidUpdate(){
-        // this.checkLoggedIn();
-    }
 
     // Calls componentDidUpdate() which results in an infinite loop
     checkLoggedIn(){

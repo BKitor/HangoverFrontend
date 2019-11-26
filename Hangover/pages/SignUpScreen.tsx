@@ -53,7 +53,6 @@ export default class SignUpScreen extends React.Component<Props> {
         }).catch((error) => {
             console.log("error caught\n***********");
             console.log(error);
-            console.log(error.response.data);
         });
         this.props.navigation.pop();
     }
