@@ -1,9 +1,10 @@
 import React from 'react';
 import {View, Text, StyleSheet, Image, Animated, TouchableOpacity, TextInput, KeyboardAvoidingView, AsyncStorage} from 'react-native';
-import {ACCENT_GRAY, PRIMARY_DARK,  DEBUG, PRIMARY_LIGHT, SECONDARY, FONT} from '../styles/common';
+import {ACCENT_GRAY, PRIMARY_DARK,  DEBUG, PRIMARY_LIGHT, SECONDARY, FONT, serverAddress} from '../styles/common';
 import {heightPercentageToDP as hp, widthPercentageToDP as wp} from "react-native-responsive-screen";
 import Icon from 'react-native-vector-icons/FontAwesome';
 import axios from 'axios';
+import styles from "../styles/loginscreenstyles";
 
 interface Props {
     navigation: any
@@ -13,7 +14,7 @@ export default class LogInScreen extends React.Component<Props> {
     state = {
         username: '',
         password: '',
-        uuid: '84d0ff80-2878-4883-819e-e4f35b58b32b',
+        uuid: '',
         isLoggedIn: false
     };
 
@@ -22,30 +23,72 @@ export default class LogInScreen extends React.Component<Props> {
         this.attemptLogin = this.attemptLogin.bind(this);
     }
 
+    componentDidMount(){
+        AsyncStorage.getItem("id").then((value) => {
+            if (value){
+                this.props.navigation.navigate("Profile");     
+            }
+        }).catch((error)=>{return});
+    }
 
+    // Is run in the constructor to attempt to auto-login the user if they are currently logged in
     attemptLogin(){
         console.debug("Attempting to retrieve user information for: " + this.state.uuid);
-        axios.get('http://10.217.128.231:8000/users/' + this.state.uuid)
+        axios.get(serverAddress + '/users/' + this.state.uuid)
             .then(res => {
             //once it works.
+            //once it works.
             console.debug("Trying to set internal userUUID value to: " + this.state.uuid);
-            AsyncStorage.setItem("userUUID", res.data.uuid).then(() => {
+            AsyncStorage.setItem("id", res.data.uuid).then(() => {
                 console.debug("Set internal userUUID value to " + this.state.uuid);
                 this.checkLogin.bind(this);
             });
         });
     }
 
+    // Is run when the CONTINUE button is pressed
     checkLogin(){
         console.log("Checking to see if there is already a value for userUUID");
-        AsyncStorage.getItem("userUUID").then((value) => {
-            if(value == null) {
-                console.debug("There is no value at userUUID, this is a new player");
-                return;
+        //this.debugAsyncStorage();
+        AsyncStorage.getItem("id").then((value) => {
+            if(value == null || value == "") { // The user is not currently logged in (or has never been)
+                console.debug("There is no value at userUUID");
+                if(this.state.username == null || this.state.username == ""){
+                    console.debug("Username must not be empty");
+                    return;
+                }
+                axios.get(serverAddress + '/users/' + this.state.username)
+                .then(res => {
+                    if(res.status != 200){
+                        console.debug("Bad request");
+                        return;
+                    }
+                    if(res.data['password'] == this.state.password){
+                        AsyncStorage.setItem("id", res.data['id']).then(value =>
+                        this.setState({uuid: value, isLoggedIn: true}),
+                        this.props.navigation.navigate("Profile"))
+                    } else {
+                        console.log("Incorrect password");
+                    }
+                })
+                .catch((res)=>{
+                    console.debug("User not found");
+                });
+            } else {
+                console.debug("There is a value at userUUID, redirecting to player");
             }
-            console.debug("There is a value at userUUID, redirecting to player");
-            this.setState({uuid: value, isLoggedIn: true});
-            this.props.navigation.navigate("Profile");
+        });
+    }
+
+    // Prints out all contents of the user's local storage
+    debugAsyncStorage(){
+        AsyncStorage.getAllKeys((err, keys) => {
+            AsyncStorage.multiGet(keys, (error, stores) => {
+                stores.map((result, i, store) => {
+                    console.debug({ [store[i][0]]: store[i][1] });
+                    return true;
+                });
+            });
         });
     }
 
@@ -75,64 +118,3 @@ export default class LogInScreen extends React.Component<Props> {
         )
     }
 }
-
-const styles = StyleSheet.create({
-    inputContainer: {
-        marginTop: hp(10),
-        alignItems: 'center'
-    },
-    fieldContainer:{
-        flexDirection: 'row',
-        width: wp(90),
-        justifyContent: 'center',
-        alignItems: 'center',
-        marginBottom: hp(5)
-    },
-    usernameInput: {
-        backgroundColor: "#fff",
-        borderRadius: wp(2),
-        height: hp(8),
-        fontFamily: FONT,
-        fontSize: wp(7),
-        paddingLeft: wp(4),
-        marginLeft: wp(5),
-        width: wp(70)
-    },
-    passwordInput: {
-        backgroundColor: "#fff",
-        borderRadius: wp(2),
-        height: hp(8),
-        fontFamily: FONT,
-        fontSize: wp(7),
-        paddingLeft: wp(4),
-        marginLeft: wp(5),
-        width: wp(70)
-    },
-    background: {
-        flex: 1,
-        backgroundColor: ACCENT_GRAY,
-        alignItems: 'center'
-    },
-    titleContainer: {
-        marginTop: hp(20)
-    },
-    title: {
-        color: PRIMARY_DARK,
-        fontFamily: FONT,
-        fontSize: hp(7)
-    },
-    btnContainer: {
-        position: 'absolute',
-        bottom: 0,
-        width: wp(100),
-        height: hp(10),
-        backgroundColor: PRIMARY_DARK,
-        alignItems: 'center',
-        justifyContent: 'center'
-    },
-    btnText: {
-        fontFamily: FONT,
-        fontSize: wp(7),
-        color: ACCENT_GRAY,
-    },
-});

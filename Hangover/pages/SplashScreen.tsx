@@ -2,6 +2,7 @@ import React from 'react';
 import { View, Text,  StyleSheet, Image, Animated} from 'react-native';
 import {ACCENT_GRAY, DEBUG, PRIMARY_LIGHT, FONT} from '../styles/common';
 import {heightPercentageToDP as hp, widthPercentageToDP as wp} from "react-native-responsive-screen";
+import styles from "../styles/splashscreenstyles"
 
 interface Props {
     navigation: any
@@ -48,19 +49,3 @@ export default class SplashScreen extends React.Component<Props> {
 
     }
 }
-
-const styles = StyleSheet.create({
-    background: {
-        flex: 1,
-        backgroundColor: PRIMARY_LIGHT,
-    },
-    titleContainer:{
-        alignItems: 'center',
-        marginTop: hp(20),
-    },
-    title: {
-        fontFamily: FONT,
-        fontSize: wp(15),
-        color: ACCENT_GRAY
-    }
-});

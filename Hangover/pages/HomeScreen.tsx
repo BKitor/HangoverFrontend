@@ -1,8 +1,21 @@
+// import axiosCfg from "../config"
+import axios from 'axios';
 import React from 'react';
-import {View, Text, StyleSheet, Image, Animated, TouchableOpacity, TextInput, KeyboardAvoidingView} from 'react-native';
+import {
+    View,
+    Text,
+    Image,
+    Animated,
+    TouchableOpacity,
+    TextInput,
+    KeyboardAvoidingView,
+    AsyncStorage,
+    Alert,
+    Button
+} from 'react-native';
 import {ACCENT_GRAY, PRIMARY_DARK,  DEBUG, PRIMARY_LIGHT, SECONDARY, FONT} from '../styles/common';
-import {heightPercentageToDP as hp, widthPercentageToDP as wp} from "react-native-responsive-screen";
-import * as Font from 'expo-font'
+import styles from "../styles/homescreenstyles.js";
+import {NavigationEvents} from 'react-navigation';
 
 interface Props {
     navigation: any
@@ -10,7 +23,9 @@ interface Props {
 
 export default class HomeScreen extends React.Component<Props> {
     state = {
-        animation : new Animated.Value(0)
+        animation : new Animated.Value(0),
+        loginButtonText: null,
+        loginButtonNavigate: null,
     };
 
     startAnimation(){
@@ -22,11 +37,40 @@ export default class HomeScreen extends React.Component<Props> {
 
     componentWillMount(){
         this.startAnimation();
+        this.checkLoggedIn();
+    }
+
+    //deleted this!!!
+    componentDidMount(){
+        axios.get(`http:tixo.ca:7537/game/t`).then((res)=>{
+            // console.log(res.data)
+            this.props.navigation.push("JoinGame", res.data);//TODO:: impliment navigaiton
+        });
+    }    //deleted this!!!
+
+    componentDidUpdate(){
+        // this.checkLoggedIn();
+    }
+
+    // Calls componentDidUpdate() which results in an infinite loop
+    checkLoggedIn(){
+        AsyncStorage.getItem("id").then((value) => {
+            if(value == null || value == "") {
+                console.debug("There is no value at userUUID, this is a new player");
+                this.setState({loginButtonText: "LOG IN", loginButtonNavigate: "LogIn"});
+                return;
+            }
+            console.debug("There is a value at userUUID, redirecting to player");
+            this.setState({loginButtonText: "ACCOUNT", loginButtonNavigate: "Profile"})
+        });
     }
 
     render() {
         return (
-            <View style={styles.background}>
+            <KeyboardAvoidingView style={styles.background} behavior={'padding'} enabled>
+                <NavigationEvents
+                    onWillFocus={payload=>this.checkLoggedIn()}
+                />
                 <View style={styles.imageContainer}>
                     <Image source={require('../assets/hangover.png')} />
                 </View>
@@ -35,86 +79,39 @@ export default class HomeScreen extends React.Component<Props> {
                             style={styles.codeInput}
                             placeholder="ROOM CODE"
                             autoCapitalize="none"
-                            onChangeText={(text) => this.checkRoomCode(text)}
+                            onSubmitEditing={({nativeEvent}) => this.checkRoomCode(nativeEvent.text)}
                             placeholderTextColor = {ACCENT_GRAY}/>
                     </View>
 
                 <View style={styles.btnContainer}>
-                    <TouchableOpacity style={styles.loginContainer} onPress={() => {this.props.navigation.navigate("LogIn")}}>
-                        <Text style={styles.loginText}>LOG IN</Text>
+                    <TouchableOpacity style={styles.loginContainer} onPress={() => {this.props.navigation.navigate(this.state.loginButtonNavigate)}}>
+                        <Text style={styles.loginText}>{this.state.loginButtonText}</Text>
                     </TouchableOpacity>
 
                     <TouchableOpacity style={styles.signUpContainer} onPress={() => {this.props.navigation.navigate("SignUp")}}>
                         <Text style={styles.signUpText}>SIGN UP</Text>
                     </TouchableOpacity>
                 </View>
-            </View>
+            </KeyboardAvoidingView>
         )
     }
 
     checkRoomCode(text){//check to see if the room code is valid and auto join
-
+        axios.get(`http:tixo.ca:7537/game/${text}`).then((res)=>{
+            // console.log(res.data)
+            this.props.navigation.push("JoinGame", res.data);//TODO:: impliment navigaiton
+        }).catch((res)=>{
+            Alert.alert(
+                "Bad room name",
+                `${text} doesn't exist`,
+                [
+                    {
+                        text:"close",
+                        onPress:()=>{}
+                    }
+                ],
+                {cancelable:false}
+            )
+        })
     }
 }
-
-const styles = StyleSheet.create({
-    background: {
-        flex: 1,
-        backgroundColor: PRIMARY_LIGHT,
-        alignItems: 'center'
-    },
-    imageContainer: {
-        alignItems: 'center',
-        marginTop: hp(15)
-    },
-    codeContainer: {
-        alignItems: 'center',
-        marginTop: hp(5)
-    },
-    codeInput: {
-        fontFamily: FONT,
-        backgroundColor: SECONDARY,
-        color: ACCENT_GRAY,
-        width: wp(80),
-        height: hp(12),
-        borderRadius: hp(2.1),
-        fontSize: hp(7.2),
-        alignItems: 'center',
-        justifyContent: 'center',
-        textAlign: 'center'
-    },
-    loginContainer: {
-        width: wp(40),
-        height: hp(7),
-        backgroundColor: PRIMARY_DARK,
-        alignItems: 'center',
-        justifyContent: 'center',
-        borderRadius: hp(2),
-        marginLeft: hp(1),
-        marginRight: wp(5)
-    },
-    signUpContainer: {
-        width: wp(40),
-        height: hp(7),
-        backgroundColor: ACCENT_GRAY,
-        alignItems: 'center',
-        justifyContent: 'center',
-        borderRadius: hp(2),
-    },
-    btnContainer: {
-        flexDirection: 'row',
-        width: wp(90),
-        alignItems: 'center',
-        marginTop: hp(10)
-    },
-    loginText: {
-        fontFamily: FONT,
-        fontSize: wp(7),
-        color: ACCENT_GRAY,
-    },
-    signUpText: {
-        fontFamily: FONT,
-        fontSize: wp(7),
-        color: PRIMARY_DARK,
-    },
-});

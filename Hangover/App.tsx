@@ -9,9 +9,9 @@ import WarningScreen from './pages/WarningScreen';
 import SignUpScreen from "./pages/SignUpScreen";
 import LogInScreen from "./pages/LogInScreen";
 import ProfileScreen from "./pages/ProfileScreen";
+import JoinGameScreen from "./pages/JoinGameScreen";
+import PlayRoundScreen from "./pages/PlayRoundScreen"
 import * as Font from "expo-font";
-
-
 
 export default class App extends React.Component {
     state = {fontLoaded: false};
@@ -43,7 +43,9 @@ const AppNavigator = createStackNavigator(
       Home: HomeScreen,
       SignUp: SignUpScreen,
       LogIn: LogInScreen,
-      Profile: ProfileScreen
+      Profile: ProfileScreen,
+      JoinGame: JoinGameScreen,
+      PlayRound: PlayRoundScreen,
   },
     {
         initialRouteName: 'Splash',
