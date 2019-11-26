@@ -12,6 +12,7 @@ import ProfileScreen from "./pages/ProfileScreen";
 import CreateQuizScreen from "./pages/CreateQuizScreen";
 import MakeNewQuizScreen from "./pages/MakeNewQuizScreen";
 import SavedQuizzesScreen from "./pages/SavedQuizzesScreen";
+import HostGameScreen from "./pages/HostGameScreen";
 import * as Font from "expo-font";
 
 
@@ -49,7 +50,8 @@ const AppNavigator = createStackNavigator(
       Profile: ProfileScreen,
       CreateQuiz: CreateQuizScreen,
       MakeNewQuiz: MakeNewQuizScreen,
-      SavedQuizzes: SavedQuizzesScreen
+      SavedQuizzes: SavedQuizzesScreen,
+      HostGame: HostGameScreen,
   },
     {
         initialRouteName: 'Splash',

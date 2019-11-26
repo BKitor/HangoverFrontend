@@ -18,7 +18,7 @@ interface Props {
     navigation: any
 }
 
-export default class HomeScreen extends React.Component<Props> {
+export default class SavedQuizzes extends React.Component<Props> {
     state = {
         uuid: null,
         quizzes: [],
@@ -75,12 +75,37 @@ export default class HomeScreen extends React.Component<Props> {
             this.state.opacities.push(this.getOpacity());
             return(
                 <View style={{opacity: this.state.opacities[this.state.opacities.length-1]}}>
-                    <TouchableOpacity style={styles.quizContainer} onPress={() => {this.props.navigation.navigate("")}}>
+                    <TouchableOpacity key={quiz.uuid} style={styles.quizContainer} onPress={(e) => this.quizSelected(e,quiz)}>
                         <Text style={styles.quizText}>{quiz.name}</Text>
                     </TouchableOpacity>
                 </View>
             )
         }
+    }
+
+    quizSelected(e, quiz){
+        console.debug(quiz.name + " selected");
+        this.createNewGame(quiz);
+    }
+
+    createNewGame(quiz){
+        const formData = {
+            "host_uuid": this.state.uuid,
+            "quiz_uuid": quiz.key,
+            "game_name": "Game Name"// how are game names being added? Pop up?
+        }
+        
+        axios({
+            method: 'post',
+            url: serverAddress+'/api/games',
+            data: formData,
+        })
+        .then(() => {
+            AsyncStorage.setItem("game_name", "Game Name")
+        })
+        .then(() => {
+            this.props.navigation.navigate("HostGame")
+        });
     }
 
     handleScroll(){
@@ -90,7 +115,6 @@ export default class HomeScreen extends React.Component<Props> {
             //console.debug("****************************************************");
         }
     }
-
 
     render() {
         return (
