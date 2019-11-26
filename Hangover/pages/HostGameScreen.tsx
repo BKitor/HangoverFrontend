@@ -80,7 +80,7 @@ export default class HomeScreen extends React.Component<Props> {
                 <View style={styles.playerBubblesContainer}>
                     {this.renderPlayers()}
                 </View>
-                <TouchableOpacity style={styles.bigBtnContainer} onPress={() => {this.props.navigation.navigate("")}}>
+                <TouchableOpacity style={styles.bigBtnContainer} onPress={() => {this.props.navigation.navigate("QuestionHost")}}>
                     <Text style={styles.bigBText}>PLAY</Text>
                 </TouchableOpacity>
             </View>
@@ -101,10 +101,6 @@ class PlayerBubble extends React.Component{
         super(props);
         this.setState({uuid: props.uuid});
         this.getPlayerName(props.uuid);
-        
-    }
-
-    componentWillMount(){
         
     }
 
