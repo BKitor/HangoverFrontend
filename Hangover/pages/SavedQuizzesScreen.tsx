@@ -25,8 +25,23 @@ export default class HomeScreen extends React.Component<Props> {
         opacities: [],
     };
 
-    componentDidMount(){
-        //console.debug("true");
+    componentWillMount(){
+        AsyncStorage.getItem("id")
+        .then((value) => {
+            if(value == null || value == "")
+                console.debug("No user uuid found in storage");
+            else
+                this.setState({uuid: value});
+        })
+        .then(() => axios.get(serverAddress + '/users/' + this.state.uuid + '/quizzes/'))
+        .then(res => {
+            if(res.status != 200){
+                console.debug("Bad request, response status: " + res.status);
+                return;
+            }
+            this.setState({quizzes: this.fixData(res.data)});
+        })
+        .then(() => this.render());
     }
 
     fixData(data){
@@ -34,7 +49,7 @@ export default class HomeScreen extends React.Component<Props> {
         for(let i=0; i<data.length; i++){
             newData.push({"key": data[i].uuid, "name": data[i].name});
         }
-        
+
         return [
         {key:"blank1"},
         {key:"blank2"},
@@ -78,27 +93,6 @@ export default class HomeScreen extends React.Component<Props> {
 
 
     render() {
-
-        AsyncStorage.getItem("id").then((value) => {
-            if(value == null || value == "") {
-                console.debug("No user uuid found in storage");
-                return;
-            }
-            this.setState({uuid: value})
-        });
-        
-        axios.get(serverAddress + '/users/' + this.state.uuid + '/quizzes/')
-        .then(res => {
-            if(res.status != 200){
-                console.debug("Bad request");
-                return;
-            }
-
-            this.setState({quizzes: this.fixData(res.data)});
-            console.debug(this.state.quizzes);
-
-        });
-
         return (
             <KeyboardAvoidingView style={styles.background} behavior={'padding'} enabled>
                 <View style={styles.titleContainer}>
