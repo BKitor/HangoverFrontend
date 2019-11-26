@@ -12,7 +12,6 @@ import ProfileScreen from "./pages/ProfileScreen";
 import JoinGameScreen from "./pages/JoinGameScreen";
 import PlayRoundScreen from "./pages/PlayRoundScreen"
 import * as Font from "expo-font";
-import ViewQuizzesScreen from "./pages/ViewQuizzesScreen";
 
 export default class App extends React.Component {
     state = {fontLoaded: false};
@@ -47,7 +46,6 @@ const AppNavigator = createStackNavigator(
       Profile: ProfileScreen,
       JoinGame: JoinGameScreen,
       PlayRound: PlayRoundScreen,
-      SavedQuizzes: ViewQuizzesScreen
   },
     {
         initialRouteName: 'Splash',
