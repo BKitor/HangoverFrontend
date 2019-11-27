@@ -1,6 +1,6 @@
-import { StyleSheet, Dimensions } from "react-native";
+import { StyleSheet } from "react-native";
 import {heightPercentageToDP as hp, widthPercentageToDP as wp} from "react-native-responsive-screen";
-import { FONT } from './common';
+import { FONT, PRIMARY_DARK, PRIMARY_LIGHT } from './common';
 
 export default styles = StyleSheet.create({
     keyboardAvoidingView:{
@@ -42,29 +42,35 @@ export default styles = StyleSheet.create({
 
     playerResponseContainer:{
         position:'absolute',
+        alignItems:'center',
+        justifyContent:'center',
         bottom:0,
         marginTop:hp(15),
         width:wp(100),
     },
     submitResponseTextInput:{
-        height:hp(10),
+        height:hp(5),
         width: wp(70),
-        borderRadius:10,
-        borderWidth:2,
+        borderRadius:20,
         fontFamily:FONT,
         textAlign:'center',
-        fontSize:wp(6),
-        backgroundColor:'white'
+        fontSize:wp(4),
+        backgroundColor:'white',
+        marginBottom:hp(2),
     },
 
     submitResponseButton:{
-        width:wp(100),
-        height:hp(15),
+        width:wp(50),
+        height:hp(13),
+        borderRadius:100,
+        backgroundColor:PRIMARY_DARK,
+        marginBottom: hp(5),
         justifyContent:'center',
         alignItems:'center',
     },
     submitResponseButtonText:{
         fontFamily:FONT,
         fontSize:wp(6),
+        color:'white',
     },
-});s
+});

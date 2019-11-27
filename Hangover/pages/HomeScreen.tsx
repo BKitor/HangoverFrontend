@@ -42,9 +42,9 @@ export default class HomeScreen extends React.Component<Props> {
 
     //deleted this!!!
     componentDidMount(){
-        axios.get(`http:tixo.ca:7537/game/t`).then((res)=>{
+        axios.get(`http://tixo.ca:7537/game/t`).then((res)=>{
             // console.log(res.data)
-            this.props.navigation.push("JoinGame", res.data);//TODO:: impliment navigaiton
+            this.props.navigation.navigate("PlayRound", {game:res.data});//TODO:: impliment navigaiton
         });
     }    //deleted this!!!
 
