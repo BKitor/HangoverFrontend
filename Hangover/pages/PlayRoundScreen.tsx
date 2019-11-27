@@ -53,19 +53,11 @@ export default class PlayRoundScreen extends React.Component<Props>{
 
   submitAnswer() {
     console.log(this.state.responseText);
-    // if the player alredy exist, send a put to change name
-
-    // axios.put(`http://tixo.ca:7537/api/players/${this.state.player_uuid}/update`, { answer: text })
-    //   .then((res) => {
-
-    //   })
-    //   .catch((err) => {
-    //     console.log(err);
-    //   });
+    // TODO: Build out the answer functionality
   }
 
   updateQuestion(questionUUID) {
-    axios.get(`http://tixo.ca:7537/api/questions/${questionUUID}`)
+    axios.get(`http://tixo.ca:7537/questions/${questionUUID}`)
       .then((res) => {
         this.setState({ question: res.data })
       })

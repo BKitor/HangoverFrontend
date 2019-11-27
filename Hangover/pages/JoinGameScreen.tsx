@@ -5,6 +5,7 @@ import { TextInput } from 'react-native-gesture-handler';
 import axios from 'axios';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import ReactPolling from 'react-polling'
+import { NavigationEvents } from 'react-navigation';
 
 
 interface Props {
@@ -17,6 +18,7 @@ export default class JoinGameScreen extends React.Component<Props>{
     players: [],
     playerNameInput: styles.playerNameInput,
     player_uuid: null,
+    readyToPlay:false,
   }
 
   constructor(props) {
@@ -52,7 +54,6 @@ export default class JoinGameScreen extends React.Component<Props>{
       axios.put(`http://tixo.ca:7537/api/players/${this.state.player_uuid}/update`, { player_name: text })
         .then((res) => {
           this.state.players[3] = text;
-          this.setState({});
         })
         .catch((err) => {
           console.log(err);
@@ -78,11 +79,14 @@ export default class JoinGameScreen extends React.Component<Props>{
     }
   }
 
-  pollingUpdate = (res) =>{
-    if(res.current_question && this.state.player_uuid){
+  pollingUpdate = (res) => {
+    if (res.current_question && this.state.player_uuid) {
       console.log(res.current_question)
-      // This is where navigation to a next question would happen
-      this.props.navigation.navigate("PlayRound", {game:res})
+      console.log(this.state.readyToPlay)
+
+      if (this.state.readyToPlay) {
+        this.props.navigation.navigate("PlayRound", { game: res })
+      }
     }
     return true
   }
@@ -105,7 +109,7 @@ export default class JoinGameScreen extends React.Component<Props>{
             <TextInput style={this.state.playerNameInput}
               maxLength={20}
               placeholder={"NickName"}
-              onSubmitEditing={({ nativeEvent }) => this.submitName(nativeEvent.text)} />
+              onSubmitEditing={({ nativeEvent }) => {this.submitName(nativeEvent.text); this.setState({readyToPlay:true})}} />
           </View>
 
           <View style={styles.footerContainer}>
@@ -116,13 +120,13 @@ export default class JoinGameScreen extends React.Component<Props>{
             url={`http://tixo.ca:7537/game/${this.state.game.game_name}`}
             interval={3000}
             method={"GET"}
-            onSuccess={(res)=>this.pollingUpdate(res)}
-            onFailure={(res)=>console.log(res)}
-            render={()=>{
+            onSuccess={(res) => this.pollingUpdate(res)}
+            onFailure={(res) => console.log(res)}
+            render={() => {
               return null
             }}
           />
-
+          <NavigationEvents onWillFocus={payload => this.setState({readyToPlay:false})} />
         </ImageBackground>
       </KeyboardAvoidingView>
     );
