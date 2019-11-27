@@ -1,6 +1,6 @@
 import { StyleSheet } from "react-native";
 import {heightPercentageToDP as hp, widthPercentageToDP as wp} from "react-native-responsive-screen";
-import { FONT, PRIMARY_DARK, PRIMARY_LIGHT } from './common';
+import { FONT, PRIMARY_DARK, PRIMARY_LIGHT, SECONDARY } from './common';
 
 export default styles = StyleSheet.create({
     keyboardAvoidingView:{
@@ -18,9 +18,9 @@ export default styles = StyleSheet.create({
 
     questionTypeContainer:{
         position:'absolute',
-        top:0,
+        top:hp(5),
         alignItems:"center",
-        // justifyContent:"center",
+        marginBottom:hp(2),
         height:hp(20),
         width:wp(100),
     },
@@ -31,14 +31,40 @@ export default styles = StyleSheet.create({
 
     questionContainer:{
         width:wp(70),
+        backgroundColor:SECONDARY,
+        borderRadius:15,
+        justifyContent:'center',
+        alignItems:'center',
     },
     questionText:{
+        color:'white',
         fontFamily:FONT,
         fontSize:wp(10),
         marginBottom:hp(5),
     },
 
-    answerContainer:{},
+    answerDisplayContainer:{
+        flexDirection:'row',
+        justifyContent:'space-around',
+    },
+    answerRow:{
+
+        alignItems:"center",
+    },
+    answerContainer:{
+        borderWidth:1,
+        marginVertical:hp(5),
+        marginHorizontal:wp(10),
+        backgroundColor:'white',
+        borderRadius:5,
+        alignItems:'center',
+        width:wp(30),
+        height:hp(10),
+    },
+    answerText:{
+        fontFamily:FONT,
+        color:PRIMARY_DARK,
+    },
 
     playerResponseContainer:{
         position:'absolute',
@@ -54,7 +80,7 @@ export default styles = StyleSheet.create({
         borderRadius:20,
         fontFamily:FONT,
         textAlign:'center',
-        fontSize:wp(4),
+        fontSize:wp(6),
         backgroundColor:'white',
         marginBottom:hp(2),
     },

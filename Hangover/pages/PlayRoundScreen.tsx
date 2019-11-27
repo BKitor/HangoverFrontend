@@ -14,10 +14,10 @@ interface Props {
 export default class PlayRoundScreen extends React.Component<Props>{
   state = {
     game: null,
-    answers: ["answer 1", "smlansr", "answer 4", "a literal wall of text because"],
+    answers: ["answer 1", "smlansr", "answer 4", "A literal wall of text because we should test for it"],
     responseText: null,
     player_uuid: null,
-    question: "",
+    question: { prompt: "", uuid: "" },
   }
 
   constructor(props) {
@@ -29,7 +29,10 @@ export default class PlayRoundScreen extends React.Component<Props>{
     if (this.state.player_uuid) {
       axios.delete(`http://tixo.ca:7537/game/${this.state.game.game_name}`, { data: { player_id: this.state.player_uuid } })
         .then(() => { })
-        .catch((err) => console.log(err))
+        .catch((err) => {
+          console.log(err);
+          console.log(err.request)
+        });
     }
   }
 
@@ -45,10 +48,11 @@ export default class PlayRoundScreen extends React.Component<Props>{
         console.log(res.message)
         this.props.navigation.goBack()
       });
-      this.getQuestion();
+    this.updateQuestion(this.state.game.current_question);
   }
 
   submitAnswer() {
+    console.log(this.state.responseText);
     // if the player alredy exist, send a put to change name
 
     // axios.put(`http://tixo.ca:7537/api/players/${this.state.player_uuid}/update`, { answer: text })
@@ -60,21 +64,30 @@ export default class PlayRoundScreen extends React.Component<Props>{
     //   });
   }
 
-  getQuestion() {
-    axios.get(`http://tixo.ca:7537/api/questions/${this.state.game.current_question}`)
+  updateQuestion(questionUUID) {
+    axios.get(`http://tixo.ca:7537/api/questions/${questionUUID}`)
       .then((res) => {
         this.setState({ question: res.data })
       })
       .catch((err) => {
-        console.log(err)
+        console.log(err);
+        console.log(err.request);
       });
   }
 
 
   pollingUpdate = (res) => {
-    if (res.current_question != this.state.game.current_question) {
-      // Question Change!
+    if (res.current_question == null) {
+      Alert.alert("Game is over", "", [{
+        text: "Exit",
+        onPress: () => this.props.navigation.goBack()
+      }], { cancelable: false })
+      return false;
     }
+    if (res.current_question != this.state.question.uuid) {
+      this.updateQuestion(res.current_question);
+    }
+
     return true
   }
 
@@ -83,22 +96,23 @@ export default class PlayRoundScreen extends React.Component<Props>{
       <KeyboardAvoidingView style={styles.keyboardAvoidingView} behavior={'position'}>
         <ImageBackground source={require('../assets/repeated-background.png')} style={styles.backgroundView}>
           <View style={styles.questionTypeContainer}>
-            <Text style={styles.questionTypeText}>{this.state.question.prompt}</Text>
+            <Text style={styles.questionTypeText}>Free Response</Text>
+            <View style={styles.questionContainer}>
+              <Text style={styles.questionText}>{this.state.question.prompt}</Text>
+            </View>
           </View>
 
-          <View style={styles.questionContainer}>
-            <Text style={styles.questionText}>/*TODO: populate this text*/</Text>
-          </View>
 
-          <View style={styles.answerContainer}>
-
+          <View style={styles.answerDisplayContainer}>
+            <_answerDisplay answers={this.state.answers} />
           </View>
 
           <View style={styles.playerResponseContainer}>
             <TextInput style={styles.submitResponseTextInput}
               maxLength={20}
               placeholder={"Answer..."}
-              onChangeText={(text) => this.setState({ responseText: text })} />
+              onChangeText={(text) => this.setState({ responseText: text })}
+              onSubmitEditing={() => this.submitAnswer()} />
             <TouchableOpacity style={styles.submitResponseButton} onPress={() => this.submitAnswer()}>
               <Text style={styles.submitResponseButtonText}>SUMBIT</Text>
             </TouchableOpacity>
@@ -120,4 +134,27 @@ export default class PlayRoundScreen extends React.Component<Props>{
       </KeyboardAvoidingView>
     );
   }
+}
+
+const _answerDisplay = ({ answers }) => {
+  return (
+    <React.Fragment>
+      <View style={styles.answerRow}>
+        <_answerContainer text={answers[0]}></_answerContainer>
+        <_answerContainer text={answers[1]}></_answerContainer>
+      </View>
+      <View style={styles.answerRow}>
+        <_answerContainer text={answers[2]}></_answerContainer>
+        <_answerContainer text={answers[3]}></_answerContainer>
+      </View>
+    </React.Fragment>
+  )
+}
+
+const _answerContainer = ({ text }) => {
+  return (
+    <View style={styles.answerContainer}>
+      <Text style={styles.answerText}>{text}</Text>
+    </View>
+  )
 }

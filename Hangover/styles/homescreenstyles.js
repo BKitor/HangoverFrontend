@@ -50,7 +50,8 @@ export default styles = StyleSheet.create({
         flexDirection: 'row',
         width: wp(90),
         alignItems: 'center',
-        marginTop: hp(10)
+        marginTop: hp(10),
+        marginBottom:hp(5),
     },
     loginText: {
         fontFamily: FONT,
