@@ -35,13 +35,12 @@ export default styles = StyleSheet.create({
         fontSize: hp(3.5),
         textAlign: 'center'
     },
-    playerBubbleContainer: {
-        top: hp(5),
+    playerBubblesContainer: {
+        top: hp(35),
         width: wp(100),
-        height: hp(),
-        backgroundColor: BASE,
-        alignItems: 'center',
-        justifyContent: 'center'
+        height: hp(53),//(100-35-12) to end directly at PLAY button
+        position: 'absolute',
+        alignItems: 'center'
     },
     playerBubbleContainer: {
         width: wp(60),
@@ -50,6 +49,7 @@ export default styles = StyleSheet.create({
         backgroundColor: "#fff",
         borderRadius: hp(2),
         justifyContent: 'space-around',
+        margin: hp(1),
     },
     playerBubbleName: {
         fontFamily: FONT,

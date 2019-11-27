@@ -5,7 +5,7 @@ import {
     Image,
     TouchableOpacity,
     KeyboardAvoidingView,
-    FlatList,
+    ScrollView,
     AsyncStorage,
 } from 'react-native';
 import {ACCENT_GRAY, PRIMARY_DARK,  DEBUG, PRIMARY_LIGHT, SECONDARY, FONT, BASE, serverAddress} from '../styles/common';
@@ -77,9 +77,9 @@ export default class HomeScreen extends React.Component<Props> {
                     <Text style={styles.titleText}>{this.state.game.game_name}</Text>
                     <Text style={styles.headerText}>PLAYERS JOINED</Text>
                 </View>
-                <View style={styles.playerBubblesContainer}>
+                <ScrollView style={styles.playerBubblesContainer}>
                     {this.renderPlayers()}
-                </View>
+                </ScrollView>
                 <TouchableOpacity style={styles.bigBtnContainer} onPress={() => {this.props.navigation.navigate("QuestionHost")}}>
                     <Text style={styles.bigBText}>PLAY</Text>
                 </TouchableOpacity>
