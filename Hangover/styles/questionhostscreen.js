@@ -9,14 +9,8 @@ export default styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center'
     },
-    promptContainer: {
+    titleContainer: {
         position: 'absolute',
-        top: hp(10),
-        width: wp(90),
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-    loadingTitleContainer: {
         top: hp(10),
         width: wp(90),
         alignItems: 'center',
@@ -25,14 +19,29 @@ export default styles = StyleSheet.create({
     titleText: {
         fontFamily: FONT,
         color: PRIMARY_DARK,
-        fontSize: hp(6),
+        fontSize: hp(5),
         textAlign: 'center'
+    },
+    promptContainer: {
+        position: 'absolute',
+        top: hp(20),
+        width: wp(90),
+        justifyContent: 'center',
+        backgroundColor: PRIMARY_LIGHT,
+        borderRadius: hp(2),
+    },
+    promptText: {
+        fontFamily: FONT,
+        color: BASE,
+        fontSize: hp(3.5),
+        paddingHorizontal: wp(5),
+        textAlign: 'left'
     },
     bigBtnContainer: {
         position: 'absolute',
         bottom: 0,
         width: wp(100),
-        height: hp(12),
+        height: hp(14),
         backgroundColor: PRIMARY_DARK,
         alignItems: 'center',
         justifyContent: 'center'
