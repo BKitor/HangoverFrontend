@@ -52,4 +52,21 @@ export default styles = StyleSheet.create({
         fontSize: hp(3.5),
         textAlign: 'center'
     },
+    nextButton: {
+        position: 'absolute',
+        backgroundColor: SECONDARY,
+        bottom: hp(10),
+        right: wp(3),
+        height: hp(10),
+        width: wp(40),
+        borderRadius: hp(2),
+        justifyContent: 'center',
+        zIndex: 10,
+    },
+    nextButtonText: {
+        color: 'white',
+        textAlign: 'center',
+        fontFamily: FONT,
+        fontSize: hp(3),
+    },
 });

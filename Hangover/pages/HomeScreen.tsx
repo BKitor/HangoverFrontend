@@ -41,14 +41,6 @@ export default class HomeScreen extends React.Component<Props> {
         this.checkLoggedIn();
     }
 
-    // //deleted this!!!
-    // componentDidMount(){
-    //     axios.get(`${serverAddress}/game/t`).then((res)=>{
-    //         // console.log(res.data)
-    //         this.props.navigation.navigate("PlayRound", {game:res.data});//TODO:: impliment navigaiton
-    //     });
-    // }    //deleted this!!!
-
     componentDidUpdate(){
         // this.checkLoggedIn();
     }
