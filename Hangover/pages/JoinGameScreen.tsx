@@ -6,6 +6,8 @@ import axios from 'axios';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import ReactPolling from 'react-polling'
 import { NavigationEvents } from 'react-navigation';
+import serverAddress from '../styles/common';
+
 
 
 interface Props {
@@ -28,14 +30,14 @@ export default class JoinGameScreen extends React.Component<Props>{
 
   componentWillUnmount() {
     if (this.state.player_uuid) {
-      axios.delete(`http://tixo.ca:7537/game/${this.state.game.game_name}`, { data: { player_id: this.state.player_uuid } })
+      axios.delete(`${serverAddress}/game/${this.state.game.game_name}`, { data: { player_id: this.state.player_uuid } })
         .then(() => { })
         .catch((err) => console.log(err))
     }
   }
 
   componentDidMount() {
-    axios.get(`http://tixo.ca:7537/game/${this.state.game.game_name}/players`)
+    axios.get(`${serverAddress}/game/${this.state.game.game_name}/players`)
       .then((res) => {
         this.setState({
           players: res.data.slice(0, 4)
@@ -51,7 +53,7 @@ export default class JoinGameScreen extends React.Component<Props>{
   submitName(text) {
     // if the player alredy exist, send a put to change name
     if (this.state.player_uuid) {
-      axios.put(`http://tixo.ca:7537/api/players/${this.state.player_uuid}/update`, { player_name: text })
+      axios.put(`${serverAddress}/api/players/${this.state.player_uuid}/update`, { player_name: text })
         .then((res) => {
           this.state.players[3] = text;
         })
@@ -60,7 +62,7 @@ export default class JoinGameScreen extends React.Component<Props>{
         });
     }
     else {//create the new player
-      axios.post(`http://tixo.ca:7537/game/${this.state.game.game_name}`, {
+      axios.post(`${serverAddress}/game/${this.state.game.game_name}`, {
         player_name: text,
         user_id: 'anon' // TODO: add support for signed in players to join gmaes
       })
@@ -117,7 +119,7 @@ export default class JoinGameScreen extends React.Component<Props>{
           </View>
 
           <ReactPolling
-            url={`http://tixo.ca:7537/game/${this.state.game.game_name}`}
+            url={`${serverAddress}/game/${this.state.game.game_name}`}
             interval={3000}
             method={"GET"}
             onSuccess={(res) => this.pollingUpdate(res)}

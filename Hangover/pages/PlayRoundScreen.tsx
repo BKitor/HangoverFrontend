@@ -4,7 +4,9 @@ import styles from '../styles/playroundscreenstyles';
 import { TextInput, TouchableOpacity } from 'react-native-gesture-handler';
 import axios from 'axios';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import ReactPolling from 'react-polling'
+import ReactPolling from 'react-polling';
+import serverAddress from '../styles/common';
+
 
 
 interface Props {
@@ -27,7 +29,7 @@ export default class PlayRoundScreen extends React.Component<Props>{
 
   componentWillUnmount() {
     if (this.state.player_uuid) {
-      axios.delete(`http://tixo.ca:7537/game/${this.state.game.game_name}`, { data: { player_id: this.state.player_uuid } })
+      axios.delete(`${serverAddress}/game/${this.state.game.game_name}`, { data: { player_id: this.state.player_uuid } })
         .then(() => { })
         .catch((err) => {
           console.log(err);
@@ -37,7 +39,7 @@ export default class PlayRoundScreen extends React.Component<Props>{
   }
 
   componentDidMount() {
-    axios.get(`http://tixo.ca:7537/game/${this.state.game.game_name}/players`)
+    axios.get(`${serverAddress}/game/${this.state.game.game_name}/players`)
       .then((res) => {
         this.setState({
           players: res.data.slice(0, 4)
@@ -57,7 +59,7 @@ export default class PlayRoundScreen extends React.Component<Props>{
   }
 
   updateQuestion(questionUUID) {
-    axios.get(`http://tixo.ca:7537/questions/${questionUUID}`)
+    axios.get(`${serverAddress}/questions/${questionUUID}`)
       .then((res) => {
         this.setState({ question: res.data })
       })
@@ -112,7 +114,7 @@ export default class PlayRoundScreen extends React.Component<Props>{
 
           {/* TODO: Replace with websocket */}
           <ReactPolling
-            url={`http://tixo.ca:7537/game/${this.state.game.game_name}`}
+            url={`${serverAddress}/game/${this.state.game.game_name}`}
             interval={3000}
             method={"GET"}
             onSuccess={(res) => this.pollingUpdate(res)}

@@ -16,6 +16,7 @@ import {
 import {ACCENT_GRAY, PRIMARY_DARK,  DEBUG, PRIMARY_LIGHT, SECONDARY, FONT} from '../styles/common';
 import styles from "../styles/homescreenstyles.js";
 import {NavigationEvents} from 'react-navigation';
+import serverAddress from '../styles/common';
 
 interface Props {
     navigation: any
@@ -42,7 +43,7 @@ export default class HomeScreen extends React.Component<Props> {
 
     // //deleted this!!!
     // componentDidMount(){
-    //     axios.get(`http://tixo.ca:7537/game/t`).then((res)=>{
+    //     axios.get(`${serverAddress}/game/t`).then((res)=>{
     //         // console.log(res.data)
     //         this.props.navigation.navigate("PlayRound", {game:res.data});//TODO:: impliment navigaiton
     //     });
