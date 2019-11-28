@@ -6,7 +6,7 @@ import axios from 'axios';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import ReactPolling from 'react-polling'
 import { NavigationEvents } from 'react-navigation';
-import serverAddress from '../styles/common';
+import {serverAddress} from '../styles/common';
 
 
 

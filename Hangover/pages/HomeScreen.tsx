@@ -16,7 +16,7 @@ import {
 import {ACCENT_GRAY, PRIMARY_DARK,  DEBUG, PRIMARY_LIGHT, SECONDARY, FONT} from '../styles/common';
 import styles from "../styles/homescreenstyles.js";
 import {NavigationEvents} from 'react-navigation';
-import serverAddress from '../styles/common';
+import {serverAddress} from '../styles/common';
 
 interface Props {
     navigation: any

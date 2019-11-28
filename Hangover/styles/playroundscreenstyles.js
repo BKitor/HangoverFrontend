@@ -39,8 +39,8 @@ export default styles = StyleSheet.create({
     questionText:{
         color:'white',
         fontFamily:FONT,
-        fontSize:wp(10),
-        marginBottom:hp(5),
+        fontSize:wp(8),
+        margin:hp(2),
     },
 
     answerDisplayContainer:{
