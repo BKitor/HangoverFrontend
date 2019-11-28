@@ -14,9 +14,9 @@ import MakeNewQuizScreen from "./pages/MakeNewQuizScreen";
 import SavedQuizzesScreen from "./pages/SavedQuizzesScreen";
 import HostGameScreen from "./pages/HostGameScreen";
 import QuestionHostScreen from "./pages/QuestionHostScreen";
+import JoinGameScreen from "./pages/JoinGameScreen";
+import PlayRoundScreen from "./pages/PlayRoundScreen"
 import * as Font from "expo-font";
-
-
 
 export default class App extends React.Component {
     state = {fontLoaded: false};
@@ -54,6 +54,8 @@ const AppNavigator = createStackNavigator(
       SavedQuizzes: SavedQuizzesScreen,
       HostGame: HostGameScreen,
       QuestionHost: QuestionHostScreen,
+      JoinGame: JoinGameScreen,
+      PlayRound: PlayRoundScreen,
   },
     {
         initialRouteName: 'Splash',

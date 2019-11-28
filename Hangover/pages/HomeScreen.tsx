@@ -1,19 +1,21 @@
+// import axiosCfg from "../config"
+import axios from 'axios';
 import React from 'react';
 import {
     View,
     Text,
-    StyleSheet,
     Image,
     Animated,
     TouchableOpacity,
     TextInput,
     KeyboardAvoidingView,
-    AsyncStorage
+    AsyncStorage,
+    Alert,
+    Button
 } from 'react-native';
 import {ACCENT_GRAY, PRIMARY_DARK,  DEBUG, PRIMARY_LIGHT, SECONDARY, FONT} from '../styles/common';
-import {heightPercentageToDP as hp, widthPercentageToDP as wp} from "react-native-responsive-screen";
-import * as Font from 'expo-font'
 import styles from "../styles/homescreenstyles.js";
+import {NavigationEvents} from 'react-navigation';
 
 interface Props {
     navigation: any
@@ -38,9 +40,16 @@ export default class HomeScreen extends React.Component<Props> {
         this.checkLoggedIn();
     }
 
+    // //deleted this!!!
+    // componentDidMount(){
+    //     axios.get(`http://tixo.ca:7537/game/t`).then((res)=>{
+    //         // console.log(res.data)
+    //         this.props.navigation.navigate("PlayRound", {game:res.data});//TODO:: impliment navigaiton
+    //     });
+    // }    //deleted this!!!
+
     componentDidUpdate(){
-        console.debug("componentDidUpdate()");
-        //this.checkLoggedIn(); 
+        // this.checkLoggedIn();
     }
 
     // Calls componentDidUpdate() which results in an infinite loop
@@ -59,6 +68,9 @@ export default class HomeScreen extends React.Component<Props> {
     render() {
         return (
             <KeyboardAvoidingView style={styles.background} behavior={'padding'} enabled>
+                <NavigationEvents
+                    onWillFocus={payload=>this.checkLoggedIn()}
+                />
                 <View style={styles.imageContainer}>
                     <Image source={require('../assets/hangover.png')} />
                 </View>
@@ -67,7 +79,7 @@ export default class HomeScreen extends React.Component<Props> {
                             style={styles.codeInput}
                             placeholder="ROOM CODE"
                             autoCapitalize="none"
-                            onChangeText={(text) => this.checkRoomCode(text)}
+                            onSubmitEditing={({nativeEvent}) => this.checkRoomCode(nativeEvent.text)}
                             placeholderTextColor = {ACCENT_GRAY}/>
                     </View>
 
@@ -85,6 +97,21 @@ export default class HomeScreen extends React.Component<Props> {
     }
 
     checkRoomCode(text){//check to see if the room code is valid and auto join
-
+        axios.get(`http:tixo.ca:7537/game/${text}`).then((res)=>{
+            // console.log(res.data)
+            this.props.navigation.push("JoinGame", res.data);//TODO:: impliment navigaiton
+        }).catch((res)=>{
+            Alert.alert(
+                "Bad room name",
+                `${text} doesn't exist`,
+                [
+                    {
+                        text:"close",
+                        onPress:()=>{}
+                    }
+                ],
+                {cancelable:false}
+            )
+        })
     }
 }
