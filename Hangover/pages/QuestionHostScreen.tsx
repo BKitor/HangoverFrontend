@@ -22,37 +22,24 @@ interface Props {
 export default class QuestionHostScreen extends React.Component<Props> {
     state = {
         question_id: null,
-        game_name: null,
+        game: null,
         question: null,
         loading: true,
         questionsLocked: false,
     };
 
-    componentWillMount(){
-        let that = this;
-        AsyncStorage.getItem("game_name")
-        .then((name) => that.setState({game_name: name}));
-        AsyncStorage.getItem("question_id")
-        .then((id) => that.setQuestionID(id))
-        .then(() => axios.get(serverAddress + "/questions/" + that.state.question_id))
-        .then((res) => that.setState({question: res.data, loading: false}))
-        .catch((err) => console.debug(err))
-        .then(() => that.render());
+    constructor(props){
+        super(props);
+        this.state.game = this.props.navigation.getParam("game", null);
+        console.debug(this.state.game);
     }
 
-    setQuestionID(id){
-        if(id == null){ // this is the first question
-            AsyncStorage.getItem("id")
-            .then((id) => axios.put(serverAddress + "/game/" + this.state.game_name + "/next_question", {user_id: id}))
-            .then((res) => {
-                console.debug(res.data);
-                this.setState({question_id: res.data.current_question})
-                AsyncStorage.setItem("question_id", res.data.current_question)
-            })
-            .catch((err) => console.debug(err))
-        } else{
-            this.setState({question_id: id});
-        }
+    componentWillMount(){
+        let that = this;
+
+        axios.get(serverAddress + "/questions/" + that.state.game.current_question)
+        .then((res) => that.setState({question: res.data, loading: false}))
+        .catch((err) => console.debug(err));
     }
 
     lockAnswers(){

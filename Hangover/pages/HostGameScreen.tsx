@@ -25,28 +25,32 @@ export default class HomeScreen extends React.Component<Props> {
         loading: true,
     };
 
+    constructor(props){
+        super(props);
+        this.state.game = this.props.navigation.getParam("game", null);
+    }
+
     componentWillMount(){
-        AsyncStorage.getItem("game_name")
-        .then((name) => axios.get(serverAddress + "/game/" + name))
-        .then((res) => this.setState({game: res.data}))
-        .then(() => axios.get(serverAddress + "/quizzes/" + this.state.game.quiz))
-        .then((res) => this.setState({quiz: res.data, loading: false}))
-        .then(() => axios.post(serverAddress + "/game/" + this.state.game.game_name,
-        {user_id: this.state.game.host,
-        player_name: "Host Name"}))
-        .then(() => this.render());
+        axios.get(serverAddress + "/quizzes/" + this.state.game.quiz)
+        .then((res) => this.setState({quiz: res.data, loading: false}));
     }
 
     update(){
         let that = this;
         setTimeout(function () {
             that.refreshGame();
-          }, 5000);
+          }, 3000);
     }
 
     async refreshGame(){
         axios.get(serverAddress + "/game/" + this.state.game.game_name)
         .then((res) => this.setState({game: res.data}));
+    }
+
+    startGame(){
+        console.debug(this.state.game);
+        axios.put(serverAddress + "/game/" + this.state.game.game_name + "/next_question", {user_id: this.state.game.host})
+        .then((res) =>this.props.navigation.navigate("QuestionHost", {game: res.data}));
     }
 
     renderPlayers(){
@@ -80,7 +84,7 @@ export default class HomeScreen extends React.Component<Props> {
                 <ScrollView style={styles.playerBubblesContainer}>
                     {this.renderPlayers()}
                 </ScrollView>
-                <TouchableOpacity style={styles.bigBtnContainer} onPress={() => {this.props.navigation.navigate("QuestionHost")}}>
+                <TouchableOpacity style={styles.bigBtnContainer} onPress={() => {this.startGame()}}>
                     <Text style={styles.bigBText}>PLAY</Text>
                 </TouchableOpacity>
             </View>

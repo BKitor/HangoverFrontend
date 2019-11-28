@@ -92,7 +92,7 @@ export default class SavedQuizzes extends React.Component<Props> {
         const formData = {
             "host_uuid": this.state.uuid,
             "quiz_uuid": quiz.key,
-            "game_name": "Game Name"// how are game names being added? Pop up?
+            "game_name": "GameName"// how are game names being added? Pop up?
         }
         
         axios({
@@ -100,12 +100,11 @@ export default class SavedQuizzes extends React.Component<Props> {
             url: serverAddress+'/api/games',
             data: formData,
         })
-        .then(() => {
-            AsyncStorage.setItem("game_name", "Game Name")
+        .then((res) => {
+            //console.debug(res);
+            this.props.navigation.navigate("HostGame", {game: res.data})
         })
-        .then(() => {
-            this.props.navigation.navigate("HostGame")
-        });
+        .catch((err) => console.debug(err.response.data));
     }
 
     handleScroll(){
