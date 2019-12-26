@@ -10,5 +10,4 @@ export const ACCENT_RED_DARK = '#B3DDEF';
 export const BASE = '#eee';
 export const FONT = 'FrancoisOne';
 export const DEBUG = true;
-export const serverAddress = "http://tixo.ca:7537";
 

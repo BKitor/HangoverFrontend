@@ -16,7 +16,8 @@ import {
 import {ACCENT_GRAY, PRIMARY_DARK,  DEBUG, PRIMARY_LIGHT, SECONDARY, FONT} from '../styles/common';
 import styles from "../styles/homescreenstyles.js";
 import {NavigationEvents} from 'react-navigation';
-import {serverAddress} from '../styles/common';
+import {serverAddress} from '../config.json';
+
 
 interface Props {
     navigation: any
@@ -39,6 +40,10 @@ export default class HomeScreen extends React.Component<Props> {
     componentWillMount(){
         this.startAnimation();
         this.checkLoggedIn();
+
+        // DELETEME
+        this.checkRoomCode('g');
+        // DELETEME
     }
 
     componentDidUpdate(){
