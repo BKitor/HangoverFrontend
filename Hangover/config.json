@@ -1,1 +1,4 @@
-{"serverAddress": "http://tixo.ca:7537"}
+{
+    "serverAddress": "http://tixo.ca:7537",
+    "DEBUG": true
+}

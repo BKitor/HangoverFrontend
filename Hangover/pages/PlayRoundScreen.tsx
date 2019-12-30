@@ -1,31 +1,100 @@
 import React from 'react';
-import { View, Text, KeyboardAvoidingView, ImageBackground, StyleSheet, Alert } from 'react-native';
+import { View, Text, KeyboardAvoidingView, ImageBackground, Keyboard } from 'react-native';
 import styles from '../styles/playroundscreenstyles';
-import { TextInput, TouchableOpacity } from 'react-native-gesture-handler';
+import { TextInput, TouchableOpacity, FlatList } from 'react-native-gesture-handler';
 import axios from 'axios';
-import Icon from 'react-native-vector-icons/FontAwesome';
-import ReactPolling from 'react-polling';
-import {serverAddress} from '../config.json';
-
-
+import { serverAddress } from '../config.json';
 
 
 interface Props {
   navigation: any
 }
 
+interface Answer {
+  answer_text: string,
+  player_uuid: string
+}
+
 export default class PlayRoundScreen extends React.Component<Props>{
   state = {
     game: null,
-    answers: ["answer 1", "smlansr", "answer 4", "A literal wall of text because we should test for it"],
-    responseText: null,
+    answers: [], //{answertext:str, playe_uuid:uuid}
+    answerText: null,
     player_uuid: null,
-    question: { prompt: "", uuid: "" },
+    question: { 'propmpt': '' }, // {uuid:'', prompt:''}
+    playerws: null,
+    questionUnlocked: true,
   }
 
   constructor(props) {
     super(props);
     this.state.game = this.props.navigation.getParam('game', null);
+    this.state.playerws = this.props.navigation.getParam('playerws', null);
+    this.state.playerws.onmessage = this._handleWSMessage;
+    this.state.player_uuid = this.props.navigation.getParam('player_uuid', null);
+  }
+
+  _handleWSMessage = (event) => {
+    const data = JSON.parse(event.data);
+    switch (data.type) {
+      case 'game.submit_answer':
+        this._updateAnswers(data.payload);
+        break;
+
+      case 'game.lock_question':
+        this.setState({
+          questionUnlocked: !this.state.questionUnlocked
+        })
+        break;
+
+      case 'game.question_changed':
+        if (!this.state.questionUnlocked) {
+          this._changeQuestion(data.payload)
+        }
+        break;
+      default:
+      // console.error(`bad WS message`);
+      // console.error(event)
+    }
+  }
+
+  _changeQuestion = (question) => {
+    this.state.answers = [];
+    this.state.questionUnlocked = !this.state.questionUnlocked
+    if (question.question_uuid) { // if a next_quesiton exists
+      axios.get(`${serverAddress}/questions/${question.question_uuid}`)
+        .then((res) => {
+          this.setState({
+            question: res.data
+          })
+        })
+        .catch((err) => {
+          console.error("error updating question")
+          console.error(err)
+        })
+    }
+    else {
+      // TODO:navigate to end page
+      this.setState({
+        question: { 'prompt': 'game_over' },
+        questionUnlocked:false
+      })
+    }
+  }
+
+  _updateAnswers = (newAnswer) => {
+    var notFound = true;
+    this.state.answers.forEach((answerObj, index) => {
+      //if the player has already submited an answer
+      if (answerObj.player_uuid === newAnswer.player_uuid) {
+        notFound = !notFound;
+        this.state.answers[index] = newAnswer;
+      }
+    });
+    if (notFound) {
+      this.state.answers.push(newAnswer);
+    }
+    this.setState({});
   }
 
   componentWillUnmount() {
@@ -33,57 +102,67 @@ export default class PlayRoundScreen extends React.Component<Props>{
       axios.delete(`${serverAddress}/game/${this.state.game.game_name}`, { data: { player_id: this.state.player_uuid } })
         .then(() => { })
         .catch((err) => {
-          console.log(err);
-          console.log(err.request)
+          console.error(err);
+          console.error(err.request)
         });
     }
   }
 
   componentDidMount() {
-    axios.get(`${serverAddress}/game/${this.state.game.game_name}/players`)
+    //TODO: have the game model hold a list of answers make, a request to the 
+    // make an answer model, that can be quickly created/deleted
+    // having the uuid present is important
+    this._setQuestion()
+  }
+
+  _setQuestion = () => {
+    this._updateGameState()
+    axios.get(`${serverAddress}/questions/${this.state.game.current_question}`)
       .then((res) => {
         this.setState({
-          players: res.data.slice(0, 4)
+          question: res.data
         })
       })
-      .catch((res) => {
-        console.log("Couldnt reach /game/<>/players")
-        console.log(res.message)
-        this.props.navigation.goBack()
-      });
-    this.updateQuestion(this.state.game.current_question);
+      .catch((err) => {
+        console.error('error fetching question')
+        console.error(err)
+      })
+  }
+
+  // get the latest 'state' of the game form the server
+  _updateGameState = () => {
+    axios.get(`${serverAddress}/game/${this.state.game.game_name}`)
+      .then((res) => {
+        this.state.game = res.data
+        this.setState({})
+      })
+      .catch((err) => {
+        console.error('error fetching game data')
+        console.error(err)
+      })
+
   }
 
   submitAnswer() {
-    console.log(this.state.responseText);
-    // TODO: Build out the answer functionality
+    Keyboard.dismiss()
+    this.state.playerws.send(JSON.stringify({
+      "type": "game.submit_answer",
+      "payload": {
+        "answer_text": this.state.answerText,
+        "player_uuid": this.state.player_uuid
+      }
+    }))
   }
 
-  updateQuestion(questionUUID) {
+  _getQuestionPrompt(questionUUID) {
     axios.get(`${serverAddress}/questions/${questionUUID}`)
       .then((res) => {
         this.setState({ question: res.data })
       })
       .catch((err) => {
-        console.log(err);
-        console.log(err.request);
+        console.error(err);
+        console.error(err.request);
       });
-  }
-
-
-  pollingUpdate = (res) => {
-    if (res.current_question == null) {
-      Alert.alert("Game is over", "", [{
-        text: "Exit",
-        onPress: () => this.props.navigation.goBack()
-      }], { cancelable: false })
-      return false;
-    }
-    if (res.current_question != this.state.question.uuid) {
-      this.updateQuestion(res.current_question);
-    }
-
-    return true
   }
 
   render() {
@@ -97,33 +176,22 @@ export default class PlayRoundScreen extends React.Component<Props>{
             </View>
           </View>
 
-
           <View style={styles.answerDisplayContainer}>
-            <_answerDisplay answers={this.state.answers} />
+            <AnswerList answers={this.state.answers} />
           </View>
 
           <View style={styles.playerResponseContainer}>
             <TextInput style={styles.submitResponseTextInput}
               maxLength={20}
               placeholder={"Answer..."}
-              onChangeText={(text) => this.setState({ responseText: text })}
-              onSubmitEditing={() => this.submitAnswer()} />
-            <TouchableOpacity style={styles.submitResponseButton} onPress={() => this.submitAnswer()}>
+              onChangeText={(text) => this.setState({ answerText: text })}
+              onSubmitEditing={this.state.questionUnlocked ? () => this.submitAnswer() : () => { }} />
+            <TouchableOpacity
+              style={this.state.questionUnlocked ? styles.submitResponseButton_unlocked : styles.submitResponseButton_locked}
+              onPress={this.state.questionUnlocked ? () => this.submitAnswer() : () => { }}>
               <Text style={styles.submitResponseButtonText}>SUMBIT</Text>
             </TouchableOpacity>
           </View>
-
-          {/* TODO: Replace with websocket */}
-          <ReactPolling
-            url={`${serverAddress}/game/${this.state.game.game_name}`}
-            interval={3000}
-            method={"GET"}
-            onSuccess={(res) => this.pollingUpdate(res)}
-            onFailure={(res) => console.log(res)}
-            render={() => {
-              return null
-            }}
-          />
 
         </ImageBackground>
       </KeyboardAvoidingView>
@@ -131,25 +199,21 @@ export default class PlayRoundScreen extends React.Component<Props>{
   }
 }
 
-const _answerDisplay = ({ answers }) => {
-  return (
-    <React.Fragment>
-      <View style={styles.answerRow}>
-        <_answerContainer text={answers[0]}></_answerContainer>
-        <_answerContainer text={answers[1]}></_answerContainer>
+function AnswerList({ answers }) {
+  function AnswerListTile({ answer, index }) {
+    return (
+      <View style={styles.answerContainer}>
+        <Text style={styles.answerText}>{answer.answer_text}</Text>
       </View>
-      <View style={styles.answerRow}>
-        <_answerContainer text={answers[2]}></_answerContainer>
-        <_answerContainer text={answers[3]}></_answerContainer>
-      </View>
-    </React.Fragment>
-  )
-}
+    )
+  }
 
-const _answerContainer = ({ text }) => {
   return (
-    <View style={styles.answerContainer}>
-      <Text style={styles.answerText}>{text}</Text>
-    </View>
+    <FlatList
+      style={styles.answerList}
+      data={answers}
+      keyExtractor={(item: Answer, index) => item.player_uuid}
+      renderItem={({ item, index }) => <AnswerListTile answer={item} index={index} />}
+    />
   )
 }

@@ -9,5 +9,4 @@ export const ACCENT_RED_LIGHT = '#E1ECF9';
 export const ACCENT_RED_DARK = '#B3DDEF';
 export const BASE = '#eee';
 export const FONT = 'FrancoisOne';
-export const DEBUG = true;
 

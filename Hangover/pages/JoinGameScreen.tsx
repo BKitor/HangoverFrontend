@@ -24,12 +24,11 @@ export default class JoinGameScreen extends React.Component<Props>{
     playerws: null, // 
   }
 
-
   constructor(props: Props) {
     super(props);
     this.state.game = this.props.navigation.state.params;
     this.state.playerws = new WebSocket(`ws://${serverAddress.slice(7)}/ws/game/${this.state.game.game_name}/player`);
-    this.state.playerws.onmessage = this._handleWSMessage
+    this.state.playerws.onmessage = this._handleWSMessage;
   }
   componentWillUnmount() {
     if (this.state.player_uuid) {
@@ -63,9 +62,6 @@ export default class JoinGameScreen extends React.Component<Props>{
         console.error(res.message)
         this.props.navigation.goBack()
       })
-    // DELETEME
-    this.submitName(`${Math.random()}`)
-    // DELETEME
   }
 
   _handleWSMessage = (event) => {
@@ -95,8 +91,8 @@ export default class JoinGameScreen extends React.Component<Props>{
         break;
 
       default:
-        console.error(`bad WS message`);
-        console.error(event)
+      console.error(`bad WS message`);
+      console.error(event)
     }
   }
 
@@ -139,9 +135,12 @@ export default class JoinGameScreen extends React.Component<Props>{
   }
 
   _navigateToGame = () => {
-
+    this.props.navigation.navigate("PlayRound", {
+      game: this.state.game,
+      playerws: this.state.playerws,
+      player_uuid: this.state.player_uuid,
+    })
   }
-
 
   render() {
     return (
@@ -180,7 +179,6 @@ function PlayerList({ playerNameArr }) {
   function PlayerListTile({ player, index }) {
     return (
       <View style={styles.playerTagContainer}>
-
         <Icon name={player.icon}></Icon>
         <Text style={styles.playerTagText}>{player.player_name}</Text>
       </View>

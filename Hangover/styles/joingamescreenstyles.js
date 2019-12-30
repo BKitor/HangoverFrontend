@@ -45,7 +45,7 @@ export const styles = StyleSheet.create({
         top: hp(20),
     },
     playerTagContainer: {
-        marginTop: hp(2),
+        marginTop: hp(1),
         backgroundColor: 'white',
         flexDirection: 'row',
         justifyContent: 'space-between',

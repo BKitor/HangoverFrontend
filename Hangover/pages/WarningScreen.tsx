@@ -1,8 +1,6 @@
 import React from 'react';
-import {View, Text, StyleSheet, Image, Animated, TouchableOpacity} from 'react-native';
-import {ACCENT_GRAY, PRIMARY_DARK,  DEBUG, PRIMARY_LIGHT, FONT} from '../styles/common';
-import {heightPercentageToDP as hp, widthPercentageToDP as wp} from "react-native-responsive-screen";
-import * as Font from 'expo-font'
+import { View, Text, Animated, TouchableOpacity } from 'react-native';
+import { DEBUG } from '../config.json'
 import styles from '../styles/warningscreenstyles.js';
 
 interface Props {
@@ -11,19 +9,19 @@ interface Props {
 
 export default class WarningScreen extends React.Component<Props> {
     state = {
-        animation : new Animated.Value(0)
+        animation: new Animated.Value(0)
     };
 
-    startAnimation(){
+    startAnimation() {
         Animated.timing(this.state.animation, {
             toValue: 1,
             duration: (DEBUG ? 0 : 1500)
         }).start();
     }
 
-    componentWillMount(){
+    componentWillMount() {
         this.startAnimation();
-        if(DEBUG)
+        if (DEBUG)
             this.props.navigation.navigate("Home");
     }
 
@@ -42,7 +40,7 @@ export default class WarningScreen extends React.Component<Props> {
                     </Text>
                 </View>
 
-                <TouchableOpacity style={styles.btnContainer} onPress={() => {this.props.navigation.navigate("Home")}}>
+                <TouchableOpacity style={styles.btnContainer} onPress={() => { this.props.navigation.navigate("Home") }}>
                     <Text style={styles.btnText}>CONTINUE</Text>
                 </TouchableOpacity>
             </View>
