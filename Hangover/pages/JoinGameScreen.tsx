@@ -7,7 +7,7 @@ import axios from 'axios';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { NavigationEvents, FlatList } from 'react-navigation';
 import { serverAddress } from '../config.json';
-
+import { PlayerList } from '../components/PlayerList';
 
 interface Props {
   navigation: any
@@ -84,15 +84,15 @@ export default class JoinGameScreen extends React.Component<Props>{
       case 'game.player_leaving':
         this.state.players.forEach((element, index) => {
           if (element.player_name === data.payload.player_name) {
-            this.state.players.splice(index, 1)
+            this.state.players.splice(index, 1);
           }
           this.setState({});
         });
         break;
 
       default:
-      console.error(`bad WS message`);
-      console.error(event)
+        console.error(`bad WS message`);
+        console.error(event)
     }
   }
 
@@ -175,21 +175,21 @@ export default class JoinGameScreen extends React.Component<Props>{
   }
 }
 
-function PlayerList({ playerNameArr }) {
-  function PlayerListTile({ player, index }) {
-    return (
-      <View style={styles.playerTagContainer}>
-        <Icon name={player.icon}></Icon>
-        <Text style={styles.playerTagText}>{player.player_name}</Text>
-      </View>
-    )
-  }
+// function PlayerList({ playerNameArr }) {
+//   function PlayerListTile({ player, index }) {
+//     return (
+//       <View style={styles.playerTagContainer}>
+//         <Icon name={player.icon}></Icon>
+//         <Text style={styles.playerTagText}>{player.player_name}</Text>
+//       </View>
+//     )
+//   }
 
-  return (
-    <FlatList
-      style={styles.playerList}
-      data={playerNameArr}
-      renderItem={({ item, index }) => <PlayerListTile player={item} index={index} />}
-    />
-  )
-}
+//   return (
+//     <FlatList
+//       style={styles.playerList}
+//       data={playerNameArr}
+//       renderItem={({ item, index }) => <PlayerListTile player={item} index={index} />}
+//     />
+//   )
+// }

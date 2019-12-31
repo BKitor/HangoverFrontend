@@ -5,7 +5,8 @@ import { heightPercentageToDP as hp, widthPercentageToDP as wp } from "react-nat
 import Icon from 'react-native-vector-icons/FontAwesome';
 import axios from 'axios';
 import styles from "../styles/loginscreenstyles";
-import { serverAddress } from '../config.json'
+import { serverAddress } from '../config.json';
+import { BottomBarButton } from '../components/BottomBarButton';
 
 interface Props {
   navigation: any
@@ -84,9 +85,7 @@ export default class LogInScreen extends React.Component<Props> {
           </View>
         </View>
 
-        <TouchableOpacity style={styles.btnContainer} onPress={() => this.checkLogin()}>
-          <Text style={styles.btnText}>LOG IN</Text>
-        </TouchableOpacity>
+        <BottomBarButton onPress={() => this.checkLogin()} buttonText={"LOG IN"} />
       </View>
     )
   }

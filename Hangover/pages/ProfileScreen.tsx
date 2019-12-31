@@ -3,6 +3,7 @@ import React from "react";
 import { serverAddress } from '../config.json';
 import axios from "axios";
 import styles from "../styles/profilescreenstyles";
+import { BottomBarButton } from '../components/BottomBarButton'
 
 interface Props {
   navigation: any
@@ -56,22 +57,21 @@ export default class ProfileScreen extends React.Component<Props>{
 
 
         <View style={styles.btnContainer}>
-          <Text style={styles.btnText}>Join Room</Text>
+          <Text style={styles.btnText}>View Stats</Text>
         </View>
         <View style={styles.btnContainer}>
-          <TouchableOpacity style={styles.signUpContainer} onPress={() => { this.props.navigation.navigate("CreateQuiz") }}>
-            <Text style={styles.btnText}>Create New Quiz</Text>
+          <TouchableOpacity style={styles.signUpContainer} onPress={() => { this.props.navigation.navigate("CreateQuiz", { "user_uuid": this.state.user_uuid }) }}>
+            <Text style={styles.btnText}>Create New Game</Text>
           </TouchableOpacity>
         </View>
         <View style={styles.btnContainer}>
-          <Text style={styles.btnText}>View Saved Quizzes</Text>
+          <Text style={styles.btnText}>Quizzes</Text>
         </View>
-        <TouchableOpacity style={styles.bigBtnContainer} onPress={() => {
+        <BottomBarButton buttonText={"LOG OUT"} onPress={() => {
           AsyncStorage.setItem("id", "").then(
             this.props.navigation.navigate("Home"));
-        }}>
-          <Text style={styles.bigBText}>LOG OUT</Text>
-        </TouchableOpacity>
+        }} />
+
       </View>
     );
   }

@@ -29,22 +29,22 @@ export default styles = StyleSheet.create({
     },
     makeOwnContainer: {
         width: wp(70),
-        height: hp(12),
+        height: hp(10),
         backgroundColor: PRIMARY_DARK,
         alignItems: 'center',
         justifyContent: 'center',
         borderRadius: hp(2)
     },
     useSavedContainer: {
+        marginTop:hp(2),
         width: wp(70),
-        height: hp(12),
+        height: hp(10),
         backgroundColor: ACCENT_GRAY,
         alignItems: 'center',
         justifyContent: 'center',
         borderRadius: hp(2),
     },
     btnContainer: {
-        flexDirection: 'row',
         width: wp(90),
         alignItems: 'center',
         justifyContent: 'center',

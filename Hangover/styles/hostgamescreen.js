@@ -1,22 +1,23 @@
-import {StyleSheet} from "react-native";
-import {heightPercentageToDP as hp, widthPercentageToDP as wp} from "react-native-responsive-screen";
-import {ACCENT_GRAY, FONT, PRIMARY_DARK, PRIMARY_LIGHT, SECONDARY, BASE} from "./common";
+import { StyleSheet } from "react-native";
+import { heightPercentageToDP as hp, widthPercentageToDP as wp } from "react-native-responsive-screen";
+import { FONT, PRIMARY_DARK, BASE } from "./common";
 
-export default styles = StyleSheet.create({
-    background: {
+export const styles = StyleSheet.create({
+    keyboardAvoidingView: {
         flex: 1,
-        backgroundColor: BASE,
+        justifyContent: 'center',
         alignItems: 'center',
-        justifyContent: 'center'
     },
-    titleContainer: {
-        position: 'absolute',
-        top: hp(10),
-        width: wp(90),
+    backgroundView: {
+        flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
+        width: wp(100),
+        height: hp(100),
     },
-    loadingTitleContainer: {
+
+    titleContainer: {
+        position: 'absolute',
         top: hp(10),
         width: wp(90),
         alignItems: 'center',
@@ -28,13 +29,31 @@ export default styles = StyleSheet.create({
         fontSize: hp(6),
         textAlign: 'center'
     },
-    headerText: {
-        marginTop: hp(7),
+    playersJoinedText: {
         fontFamily: FONT,
-        color: PRIMARY_DARK,
-        fontSize: hp(3.5),
-        textAlign: 'center'
+        fontSize: wp(10),
+        marginBottom: hp(2),
     },
+
+    playerList: {
+        flex: 1,
+        flexGrow: 0.6,
+        top: hp(17),
+        width:wp(80),
+    },
+    playerTagContainer: {
+        marginTop: hp(1),
+        backgroundColor: 'white',
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        borderRadius: 10,
+    },
+    playerTagText: {
+        fontFamily: FONT,
+        fontSize: hp(3),
+    },
+
     playerBubblesContainer: {
         top: hp(35),
         width: wp(100),
@@ -78,3 +97,20 @@ export default styles = StyleSheet.create({
         textAlign: 'center'
     },
 });
+
+
+export const possibleFontAwesomeIcons = [
+    'thumbs-up',
+    'glass',
+    'user',
+    'check',
+    'trash-o',
+    'headphones',
+    'plane',
+    'fire',
+    'eye',
+    'lemon-o',
+    'github',
+    'bell',
+    'flask'
+]

@@ -13,6 +13,7 @@ import { heightPercentageToDP as hp, widthPercentageToDP as wp } from "react-nat
 import Icon from 'react-native-vector-icons/FontAwesome'
 import axios from 'axios'
 import styles from "../styles/signupscreenstyles";
+import { BottomBarButton } from '../components/BottomBarButton';
 
 
 interface Props {
@@ -78,9 +79,7 @@ export default class SignUpScreen extends React.Component<Props> {
           </View>
         </View>
 
-        <TouchableOpacity style={styles.btnContainer} onPress={() => { this.createNewAccount() }}>
-          <Text style={styles.btnText}>CONTINUE</Text>
-        </TouchableOpacity>
+        <BottomBarButton onPress={() => { this.createNewAccount() }} buttonText={"CONTINUE"} />
       </KeyboardAvoidingView>
     )
   }

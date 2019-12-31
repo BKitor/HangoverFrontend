@@ -51,6 +51,7 @@ export default styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         borderRadius: hp(2),
+        borderWidth:1,
         marginBottom: hp(5),
         shadowColor: "#000",
         shadowOffset: {width: 3, height: 0},

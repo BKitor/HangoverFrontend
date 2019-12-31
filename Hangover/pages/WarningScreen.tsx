@@ -2,6 +2,7 @@ import React from 'react';
 import { View, Text, Animated, TouchableOpacity } from 'react-native';
 import { DEBUG } from '../config.json'
 import styles from '../styles/warningscreenstyles.js';
+import { BottomBarButton } from '../components/BottomBarButton';
 
 interface Props {
     navigation: any
@@ -40,9 +41,7 @@ export default class WarningScreen extends React.Component<Props> {
                     </Text>
                 </View>
 
-                <TouchableOpacity style={styles.btnContainer} onPress={() => { this.props.navigation.navigate("Home") }}>
-                    <Text style={styles.btnText}>CONTINUE</Text>
-                </TouchableOpacity>
+                <BottomBarButton onPress={() => { this.props.navigation.navigate("Home") }} buttonText={"CONTINUE"} />
             </View>
         )
     }
