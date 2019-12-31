@@ -2,22 +2,21 @@
 import axios from 'axios';
 import React from 'react';
 import {
-  View,
-  Text,
-  Image,
-  Animated,
-  TouchableOpacity,
-  TextInput,
-  KeyboardAvoidingView,
-  AsyncStorage,
   Alert,
+  Animated,
+  AsyncStorage,
+  BackHandler,
+  Image,
+  KeyboardAvoidingView,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
 } from 'react-native';
 import styles from "../styles/homescreenstyles.js";
 import { NavigationEvents } from 'react-navigation';
 import { DEBUG } from '../config.json'
 import { ACCENT_GRAY } from '../styles/common'
-
-
 
 interface Props {
   navigation: any
@@ -36,6 +35,29 @@ export default class HomeScreen extends React.Component<Props> {
       toValue: 1,
       duration: (DEBUG ? 0 : 1500)
     }).start();
+  }
+
+  _handleBackButtonPressAndroid = () => {
+    if (!this.props.navigation.isFocused()) {
+      return false;
+    }
+    Alert.alert(
+      "Exit App?",
+      "Are you sure you want to exit the app?",
+      [
+        { text: 'Exit', onPress: BackHandler.exitApp },
+        { text: 'Cancel', onPress: () => { }, style: 'cancel' },
+      ]
+    )
+    return true;
+  }
+
+  componentWillUnmount() {
+    BackHandler.removeEventListener('hardwareBackPress', this._handleBackButtonPressAndroid)
+  }
+
+  componentDidMount() {
+    BackHandler.addEventListener('hardwareBackPress', this._handleBackButtonPressAndroid)
   }
 
   componentWillMount() {

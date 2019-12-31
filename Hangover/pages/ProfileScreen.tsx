@@ -1,4 +1,4 @@
-import { Text, TouchableOpacity, View, AsyncStorage, BackAndroid, BackHandler } from "react-native";
+import { Text, TouchableOpacity, View, AsyncStorage, BackHandler } from "react-native";
 import React from "react";
 import { serverAddress } from '../config.json';
 import axios from "axios";
