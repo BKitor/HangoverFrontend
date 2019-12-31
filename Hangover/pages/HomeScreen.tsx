@@ -28,6 +28,7 @@ export default class HomeScreen extends React.Component<Props> {
     animation: new Animated.Value(0),
     loginButtonText: null,
     loginButtonNavigate: null,
+    user_uuid: null,
   };
 
   startAnimation() {
@@ -43,19 +44,25 @@ export default class HomeScreen extends React.Component<Props> {
   }
 
   componentDidUpdate() {
-    // this.checkLoggedIn();
+    this.checkLoggedIn();
   }
 
   // Calls componentDidUpdate() which results in an infinite loop
   checkLoggedIn() {
     AsyncStorage.getItem("id").then((value) => {
       if (value == null || value == "") {
-        console.debug("There is no value at userUUID, this is a new player");
+        // console.debug("There is no value at userUUID, this is a new player");
         this.setState({ loginButtonText: "LOG IN", loginButtonNavigate: "LogIn" });
         return;
       }
-      console.debug("There is a value at userUUID, redirecting to player");
-      this.setState({ loginButtonText: "ACCOUNT", loginButtonNavigate: "Profile" })
+      else {
+        // console.debug("There is a value at userUUID, redirecting to player");
+        this.setState({
+          loginButtonText: "ACCOUNT",
+          loginButtonNavigate: "Profile",
+          user_uuid: value
+        })
+      }
     });
   }
 
@@ -78,7 +85,7 @@ export default class HomeScreen extends React.Component<Props> {
         </View>
 
         <View style={styles.btnContainer}>
-          <TouchableOpacity style={styles.loginContainer} onPress={() => { this.props.navigation.navigate(this.state.loginButtonNavigate) }}>
+          <TouchableOpacity style={styles.loginContainer} onPress={() => { this.props.navigation.navigate(this.state.loginButtonNavigate, { 'user_uuid': this.state.user_uuid }) }}>
             <Text style={styles.loginText}>{this.state.loginButtonText}</Text>
           </TouchableOpacity>
 

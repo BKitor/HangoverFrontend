@@ -1,6 +1,6 @@
 import uuid from 'uuid'
 import React from 'react';
-import { View, Text, KeyboardAvoidingView, ImageBackground, StyleSheet, Alert } from 'react-native';
+import { View, Text, KeyboardAvoidingView, ImageBackground, Alert } from 'react-native';
 import { styles, possibleFontAwesomeIcons } from '../styles/joingamescreenstyles';
 import { TextInput } from 'react-native-gesture-handler';
 import axios from 'axios';
