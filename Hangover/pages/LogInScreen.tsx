@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, TextInput, AsyncStorage, KeyboardAvoidingView } from 'react-native';
+import { View, Text, TextInput, AsyncStorage, KeyboardAvoidingView } from 'react-native';
 import { PRIMARY_DARK, } from '../styles/common';
 import { heightPercentageToDP as hp, widthPercentageToDP as wp } from "react-native-responsive-screen";
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -13,6 +13,8 @@ interface Props {
 }
 
 export default class LogInScreen extends React.Component<Props> {
+  passwordInputText = null;
+
   state = {
     username: '',
     password: '',
@@ -58,7 +60,7 @@ export default class LogInScreen extends React.Component<Props> {
   // TODO: add keybaord avoiding view
   render() {
     return (
-      <View style={styles.background}>
+      <KeyboardAvoidingView style={styles.background} behavior={'height'} >
         <View style={styles.titleContainer}>
           <Text style={styles.title}>LOG IN</Text>
           <Text style={styles.badLoginText}>{this.state.badLogInAttempted ? 'Log in failed, Check your username/password' : ' '}</Text>
@@ -71,14 +73,19 @@ export default class LogInScreen extends React.Component<Props> {
               style={this.state.usernameInput}
               placeholder="Username"
               onChangeText={text => this.setState({ username: text })}
-              value={this.state.username} />
+              value={this.state.username}
+              returnKeyType={'next'}
+              onSubmitEditing={(nativeEvent) => { this.passwordInputText.focus(); }}
+              blurOnSubmit={false} />
           </View>
           <View style={styles.fieldContainer}>
             <Icon name="lock" size={wp(16)} color={PRIMARY_DARK} />
             <TextInput
               style={this.state.passwordInput}
+              ref={(input) => { this.passwordInputText = input }}
               secureTextEntry={true}
               onChangeText={text => this.setState({ password: text })}
+              onSubmitEditing={() => { this.checkLogin() }}
               placeholder="Password"
               value={this.state.password}
             />
@@ -86,7 +93,7 @@ export default class LogInScreen extends React.Component<Props> {
         </View>
 
         <BottomBarButton onPress={() => this.checkLogin()} buttonText={"LOG IN"} />
-      </View>
+      </KeyboardAvoidingView>
     )
   }
 }

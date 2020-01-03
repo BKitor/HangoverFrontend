@@ -26,7 +26,8 @@ interface Props {
 * */
 
 export default class SignUpScreen extends React.Component<Props> {
-
+  passwordTInput = null;
+  phoneTInput = null;
   state = {
     username: '',
     phone: '',
@@ -59,7 +60,7 @@ export default class SignUpScreen extends React.Component<Props> {
 
   render() {
     return (
-      <KeyboardAvoidingView style={styles.background} enabled>
+      <KeyboardAvoidingView style={styles.background} behavior={'padding'}>
         <View style={styles.titleContainer}>
           <Text style={styles.title}>SIGN UP</Text>
         </View>
@@ -67,15 +68,37 @@ export default class SignUpScreen extends React.Component<Props> {
         <View style={styles.inputContainer}>
           <View style={styles.fieldContainer}>
             <Icon name="user-circle" size={wp(13)} color={PRIMARY_DARK} />
-            <TextInput style={styles.usernameInput} onChangeText={(text) => this.setState({ username: text })} placeholder="Username" />
+            <TextInput
+              style={styles.usernameInput}
+              onChangeText={(text) => this.setState({ username: text })}
+              onSubmitEditing={() => { this.phoneTInput.focus() }}
+              returnKeyType={'next'}
+              blurOnSubmit={false}
+              placeholder="Username"
+            />
           </View>
           <View style={styles.fieldContainer}>
             <Icon name="phone" size={wp(13)} color={PRIMARY_DARK} />
-            <TextInput style={styles.usernameInput} onChangeText={(text) => this.setState({ phone: text })} placeholder="Phone Number" />
+            <TextInput
+              style={styles.usernameInput}
+              ref={(tinput) => { this.phoneTInput = tinput }}
+              onChangeText={(text) => this.setState({ phone: text })}
+              onSubmitEditing={() => { this.passwordTInput.focus() }}
+              returnKeyType={'next'}
+              blurOnSubmit={false}
+              placeholder="Phone Number"
+            />
           </View>
           <View style={styles.fieldContainer}>
             <Icon name="lock" size={wp(16)} color={PRIMARY_DARK} />
-            <TextInput style={styles.passwordInput} secureTextEntry={true} onChangeText={(text) => this.setState({ password: text })} placeholder="Password" />
+            <TextInput
+              style={styles.passwordInput}
+              ref={(tinput) => { this.passwordTInput = tinput }}
+              secureTextEntry={true}
+              onChangeText={(text) => this.setState({ password: text })}
+              placeholder="Password"
+              onSubmitEditing={()=>this.createNewAccount()}
+            />
           </View>
         </View>
 

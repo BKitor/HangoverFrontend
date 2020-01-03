@@ -78,9 +78,21 @@ export default class HomeScreen extends React.Component<Props> {
   }
 
   _startGame = () => {
-    this.state.host_ws.send(JSON.stringify({
-      type: 'game.start_game'
-    }))
+    //TODO: this next_quesiton navigation should be moved server side, simplify it to just the ws message
+    axios.put(`${serverAddress}/game/${this.state.game_name}/next_question`, {
+      user_id: this.state.host_uuid
+    }).then(res => {
+      this.setState({
+        game: res.data
+      })
+      this.state.host_ws.send(JSON.stringify({
+        type: 'game.start_game'
+      }))
+    })
+      .catch(err => {
+        console.debug('error changing question')
+        console.debug(err.message)
+      })
   }
 
   _handleHostWS = (event) => {
@@ -104,8 +116,11 @@ export default class HomeScreen extends React.Component<Props> {
         break;
 
       case 'game.start_game':
-          console.log("navigate to next screen")
-          // todo, figure out navigation
+        console.log("navigate to next screen")
+        this.props.navigation.navigate("HostRound", {
+          host_ws: this.state.host_ws,
+          game: this.state.game
+        });
         break;
 
       default:

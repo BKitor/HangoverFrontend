@@ -7,7 +7,9 @@ export default styles = StyleSheet.create({
         flex: 1,
         backgroundColor: BASE,
         alignItems: 'center',
-        justifyContent: 'center'
+        justifyContent: 'center',
+        height:hp(100),
+        width:wp(100),
     },
     titleContainer: {
         position: 'absolute',

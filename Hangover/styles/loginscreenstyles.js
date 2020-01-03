@@ -3,13 +3,30 @@ import { heightPercentageToDP as hp, widthPercentageToDP as wp } from "react-nat
 import { ACCENT_GRAY, FONT, PRIMARY_DARK } from "./common";
 
 export default styles = StyleSheet.create({
+    background: {
+        height: hp(100),
+        width: wp(100),
+        flex: 1,
+        backgroundColor: ACCENT_GRAY,
+        alignItems: 'center',
+        justifyContent:'space-around'
+    },
+
+    titleContainer: {
+        alignItems:'center'
+    },
+    title: {
+        color: PRIMARY_DARK,
+        fontFamily: FONT,
+        fontSize: hp(7)
+    },
     badLoginText:{
         color:'red',
         fontFamily:FONT,
     },
     
     inputContainer: {
-        marginTop: hp(10),
+        flex:.7,
         alignItems: 'center'
     },
     fieldContainer: {
@@ -63,35 +80,5 @@ export default styles = StyleSheet.create({
         borderColor: 'red',
         borderWidth: 1
     },
-    background: {
-        height: hp(100),
-        width: wp(100),
-        flex: 1,
-        backgroundColor: ACCENT_GRAY,
-        alignItems: 'center',
 
-    },
-    titleContainer: {
-        marginTop: hp(20),
-        alignItems:'center'
-    },
-    title: {
-        color: PRIMARY_DARK,
-        fontFamily: FONT,
-        fontSize: hp(7)
-    },
-    btnContainer: {
-        position: 'absolute',
-        bottom: 0,
-        width: wp(100),
-        height: hp(10),
-        backgroundColor: PRIMARY_DARK,
-        alignItems: 'center',
-        justifyContent: 'center'
-    },
-    btnText: {
-        fontFamily: FONT,
-        fontSize: wp(7),
-        color: ACCENT_GRAY,
-    },
 });

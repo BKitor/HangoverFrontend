@@ -60,11 +60,11 @@ export default class HomeScreen extends React.Component<Props> {
     BackHandler.addEventListener('hardwareBackPress', this._handleBackButtonPressAndroid)
 
     //DELETEME
-    this.props.navigation.navigate("HostGame", {
-      host_uuid: "ab1ff2ed-1c46-4b1a-b4a8-f46bc60cadb5",
-      quiz_uuid: "37b527e0-37b4-4aa6-ac1d-cde49953880b",
-      game_name: null
-    })
+    // this.props.navigation.navigate("HostGame", {
+    //   host_uuid: "ab1ff2ed-1c46-4b1a-b4a8-f46bc60cadb5",
+    //   quiz_uuid: "37b527e0-37b4-4aa6-ac1d-cde49953880b",
+    //   game_name: null
+    // })
     //DELETEME
   }
 
@@ -130,7 +130,7 @@ export default class HomeScreen extends React.Component<Props> {
   checkRoomCode(text) {//check to see if the room code is valid and auto join
     axios.get(`http:tixo.ca:7537/game/${text}`).then((res) => {
       // console.log(res.data)
-      this.props.navigation.push("JoinGame", res.data);//TODO:: impliment navigaiton
+      this.props.navigation.push("JoinGame", res.data);
     }).catch((res) => {
       Alert.alert(
         "Bad room name",
