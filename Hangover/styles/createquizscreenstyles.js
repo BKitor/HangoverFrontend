@@ -11,55 +11,52 @@ export default styles = StyleSheet.create({
     },
     imageContainer: {
         alignItems: 'center',
-        marginTop: hp(15)
+        marginTop: hp(2)
     },
-    codeContainer: {
-        marginTop: hp(5),
-        width: wp(80),
+    titleContainer: {
+        marginTop: hp(3),
+        width: wp(90),
         height: hp(12),
         borderRadius: hp(2.1),
-        backgroundColor: SECONDARY,
         alignItems: 'center',
         justifyContent: 'center',
     },
-    codeInput: {
+    titleText: {
         fontFamily: FONT,
-        color: ACCENT_GRAY,
-        fontSize: hp(7.2),
+        color: PRIMARY_DARK,
+        fontSize: hp(5.5),
         textAlign: 'center'
     },
-    loginContainer: {
-        width: wp(40),
-        height: hp(7),
+    makeOwnContainer: {
+        width: wp(70),
+        height: hp(10),
         backgroundColor: PRIMARY_DARK,
         alignItems: 'center',
         justifyContent: 'center',
-        borderRadius: hp(2),
-        marginLeft: hp(1),
-        marginRight: wp(5)
+        borderRadius: hp(2)
     },
-    signUpContainer: {
-        width: wp(40),
-        height: hp(7),
+    useSavedContainer: {
+        marginTop:hp(2),
+        width: wp(70),
+        height: hp(10),
         backgroundColor: ACCENT_GRAY,
         alignItems: 'center',
         justifyContent: 'center',
         borderRadius: hp(2),
     },
     btnContainer: {
-        flexDirection: 'row',
         width: wp(90),
         alignItems: 'center',
-        marginTop: hp(10),
-        marginBottom:hp(5),
+        justifyContent: 'center',
+        marginTop: hp(5)
     },
-    loginText: {
+    makeOwnText: {
         fontFamily: FONT,
         fontSize: wp(7),
         color: ACCENT_GRAY,
         textAlign: 'center'
     },
-    signUpText: {
+    useSavedText: {
         fontFamily: FONT,
         fontSize: wp(7),
         color: PRIMARY_DARK,

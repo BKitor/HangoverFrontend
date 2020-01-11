@@ -1,7 +1,6 @@
 import React from 'react';
-import { View, Text,  StyleSheet, Image, Animated} from 'react-native';
-import {ACCENT_GRAY, DEBUG, PRIMARY_LIGHT, FONT} from '../styles/common';
-import {heightPercentageToDP as hp, widthPercentageToDP as wp} from "react-native-responsive-screen";
+import { View, Text, Image, Animated } from 'react-native';
+import { DEBUG } from '../config.json'
 import styles from "../styles/splashscreenstyles"
 
 interface Props {
@@ -10,11 +9,11 @@ interface Props {
 
 export default class SplashScreen extends React.Component<Props> {
     state = {
-        animation : new Animated.Value(0),
+        animation: new Animated.Value(0),
 
     };
 
-    startAnimation(){
+    startAnimation() {
         Animated.timing(this.state.animation, {
             toValue: 1,
             duration: (DEBUG ? 0 : 1000),
@@ -24,12 +23,12 @@ export default class SplashScreen extends React.Component<Props> {
                 toValue: 0,
                 duration: (DEBUG ? 0 : 1000),
                 delay: (DEBUG ? 0 : 2000)
-            }).start(() => {this.props.navigation.navigate("Warning")});
+            }).start(() => { this.props.navigation.navigate("Warning") });
         });
 
     }
 
-    componentWillMount(){
+    componentWillMount() {
         this.startAnimation();
     }
 
