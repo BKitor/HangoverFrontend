@@ -77,7 +77,6 @@ export default class JoinGameScreen extends React.Component<Props>{
         break;
 
       case 'game.start_game':
-        console.log(data.type)
         this._navigateToGame();
         break;
 
@@ -92,7 +91,7 @@ export default class JoinGameScreen extends React.Component<Props>{
 
       default:
         console.error(`bad WS message`);
-        console.error(event)
+        console.error(event.data)
     }
   }
 
@@ -152,7 +151,6 @@ export default class JoinGameScreen extends React.Component<Props>{
           </View>
 
           <View style={styles.playerJoinedContainer}>
-            <View style={{ backgroundColor: 'green' }}></View>
             <PlayerList playerNameArr={this.state.players} />
           </View>
 
@@ -174,22 +172,3 @@ export default class JoinGameScreen extends React.Component<Props>{
     );
   }
 }
-
-// function PlayerList({ playerNameArr }) {
-//   function PlayerListTile({ player, index }) {
-//     return (
-//       <View style={styles.playerTagContainer}>
-//         <Icon name={player.icon}></Icon>
-//         <Text style={styles.playerTagText}>{player.player_name}</Text>
-//       </View>
-//     )
-//   }
-
-//   return (
-//     <FlatList
-//       style={styles.playerList}
-//       data={playerNameArr}
-//       renderItem={({ item, index }) => <PlayerListTile player={item} index={index} />}
-//     />
-//   )
-// }

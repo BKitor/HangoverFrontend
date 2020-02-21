@@ -5,8 +5,8 @@ export const PRIMARY_LIGHT = '#817DC0';
 export const SECONDARY = '#B7B4F4';
 export const ACCENT_GRAY = '#E1ECF9';
 export const ACCENT_BLUE = '#B3DDEF';
-export const ACCENT_RED_LIGHT = '#E1ECF9';
-export const ACCENT_RED_DARK = '#B3DDEF';
+export const ACCENT_RED_LIGHT = '#E67B85';
+export const ACCENT_RED_DARK = '#ff5d5d';
 export const BASE = '#eee';
 export const FONT = 'FrancoisOne';
 

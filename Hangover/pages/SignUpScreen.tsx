@@ -50,11 +50,9 @@ export default class SignUpScreen extends React.Component<Props> {
     axios.post(`${serverAddress}/users/create/`, formData)
       .then((res) => {
         AsyncStorage.setItem("id", res.data.id);
-        console.log("Set async storage to the user ID: " + res.data.id);
         this.props.navigation.pop();
       }).catch((error) => {
-        console.log("error creating user");
-        console.log(error);
+        console.error(error);
       });
   }
 

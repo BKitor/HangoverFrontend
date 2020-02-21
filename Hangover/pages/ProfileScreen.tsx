@@ -37,7 +37,6 @@ export default class ProfileScreen extends React.Component<Props>{
       // The screen is not focused, so don't do anything
       return false;
     }
-    console.log('test')
     this.props.navigation.navigate('Home')
     return true;
   }

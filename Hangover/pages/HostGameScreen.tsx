@@ -116,7 +116,6 @@ export default class HomeScreen extends React.Component<Props> {
         break;
 
       case 'game.start_game':
-        console.log("navigate to next screen")
         this.props.navigation.navigate("HostRound", {
           host_ws: this.state.host_ws,
           game: this.state.game

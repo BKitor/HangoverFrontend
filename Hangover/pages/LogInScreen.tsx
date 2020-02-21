@@ -34,7 +34,6 @@ export default class LogInScreen extends React.Component<Props> {
     axios.get(`${serverAddress}/users/uname/${this.state.username}`)
       .then((res) => {
         if (res.data.password == this.state.password) {
-          console.log("login sucsessflu")
           AsyncStorage.setItem("id", res.data.id)
           this.props.navigation.navigate("Profile", { 'user_uuid': res.data.id })
         }
@@ -48,7 +47,6 @@ export default class LogInScreen extends React.Component<Props> {
   }
 
   _unsuccessfulLogin = () => {
-    console.log('login unsucsessful')
     this.setState({
       usernameInput: styles.bad_usernameInput,
       passwordInput: styles.bad_passwordInput,

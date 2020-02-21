@@ -15,7 +15,7 @@ import {
 } from 'react-native';
 import styles from "../styles/homescreenstyles.js";
 import { NavigationEvents } from 'react-navigation';
-import { DEBUG } from '../config.json'
+import { DEBUG, serverAddress } from '../config.json'
 import { ACCENT_GRAY } from '../styles/common'
 
 interface Props {
@@ -128,8 +128,7 @@ export default class HomeScreen extends React.Component<Props> {
   }
 
   checkRoomCode(text) {//check to see if the room code is valid and auto join
-    axios.get(`http:tixo.ca:7537/game/${text}`).then((res) => {
-      // console.log(res.data)
+    axios.get(`${serverAddress}/game/${text}`).then((res) => {
       this.props.navigation.push("JoinGame", res.data);
     }).catch((res) => {
       Alert.alert(

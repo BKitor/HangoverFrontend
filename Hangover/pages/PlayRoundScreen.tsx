@@ -4,16 +4,14 @@ import styles from '../styles/playroundscreenstyles';
 import { TextInput, TouchableOpacity, FlatList } from 'react-native-gesture-handler';
 import axios from 'axios';
 import { serverAddress } from '../config.json';
+// import { AnswerList } from '../components/AnswerList';
 
 
 interface Props {
   navigation: any
 }
 
-interface Answer {
-  answer_text: string,
-  player_uuid: string
-}
+
 
 export default class PlayRoundScreen extends React.Component<Props>{
   state = {
@@ -77,7 +75,7 @@ export default class PlayRoundScreen extends React.Component<Props>{
       // TODO:navigate to end page
       this.setState({
         question: { 'prompt': 'game_over' },
-        questionUnlocked:false
+        questionUnlocked: false
       })
     }
   }
@@ -98,14 +96,14 @@ export default class PlayRoundScreen extends React.Component<Props>{
   }
 
   componentWillUnmount() {
-    if (this.state.player_uuid) {
-      axios.delete(`${serverAddress}/game/${this.state.game.game_name}`, { data: { player_id: this.state.player_uuid } })
-        .then(() => { })
-        .catch((err) => {
-          console.error(err);
-          console.error(err.request)
-        });
-    }
+    // if (this.state.player_uuid) {
+    //   axios.delete(`${serverAddress}/game/${this.state.game.game_name}`, { data: { player_id: this.state.player_uuid } })
+    //     .then(() => { })
+    //     .catch((err) => {
+    //       console.error(err);
+    //       console.error(err.request)
+    //     });
+    // }
   }
 
   componentDidMount() {
