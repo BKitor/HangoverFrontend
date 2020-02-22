@@ -16,6 +16,7 @@ import HostGameScreen from "./pages/HostGameScreen";
 import HostRoundScreen from "./pages/HostRoundScreen"
 import JoinGameScreen from "./pages/JoinGameScreen";
 import PlayRoundScreen from "./pages/PlayRoundScreen"
+import GameSummaryScreen from "./pages/GameSummaryScreen"
 import * as Font from "expo-font";
 
 export default class App extends React.Component {
@@ -56,6 +57,7 @@ const AppNavigator = createStackNavigator(
     HostRound: HostRoundScreen,
     JoinGame: JoinGameScreen,
     PlayRound: PlayRoundScreen,
+    GameSummary: GameSummaryScreen,
   },
   {
     initialRouteName: 'Splash',

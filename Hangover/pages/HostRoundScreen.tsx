@@ -51,7 +51,7 @@ export default class HostRoundScreen extends React.Component<Props> {
 
   getQFromServer = (qUUID) => {
     axios.get(`${serverAddress}/questions/${qUUID}`)
-      .then((res) => this.setState({ question: res.data, loading: false }))
+      .then((res) => this.setState({ question: res.data }))
       .catch((err) => console.debug(err));
   }
 
@@ -70,7 +70,9 @@ export default class HostRoundScreen extends React.Component<Props> {
         console.debug('error type message from server')
         console.debug(data.payload)
         break;
-      case 'success': break;
+      case 'success':
+      case 'game.end_game':
+        break;
       default:
         console.debug('bad ws message');
         console.debug(data)
@@ -78,13 +80,16 @@ export default class HostRoundScreen extends React.Component<Props> {
   }
 
   _refreshOnQChange = (websocketPayload) => {
-    console.log(websocketPayload.question_uuid)
     if (websocketPayload.question_uuid) {
       this.state.answers = [];
       this.state.questionsLocked = false;
       this.getQFromServer(websocketPayload.question_uuid);
-    }else{
-      // this.props.navigation.navigate() go to end screen
+    } else {
+      this.props.navigation.navigate("GameSummary", {
+        game: this.state.game,
+        host_ws: this.state.host_ws,
+        isHost: true,
+      })
     }
   }
 
@@ -211,7 +216,7 @@ export default class HostRoundScreen extends React.Component<Props> {
     return (
       <ImageBackground source={require('../assets/repeated-background.png')} style={styles.background}>
         <View style={styles.titleContainer}>
-          <Text style={styles.titleText}>FILL IN THE BLANK</Text>
+          <Text style={styles.titleText}>{this.state.game.game_name}</Text>
         </View>
         <View style={styles.promptContainer}>
           <Text style={styles.promptText}>{this.state.question ? this.state.question.prompt : " "}</Text>

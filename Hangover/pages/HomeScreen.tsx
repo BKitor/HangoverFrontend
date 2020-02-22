@@ -60,10 +60,26 @@ export default class HomeScreen extends React.Component<Props> {
     BackHandler.addEventListener('hardwareBackPress', this._handleBackButtonPressAndroid)
 
     //DELETEME
-    // this.props.navigation.navigate("HostGame", {
-    //   host_uuid: "ab1ff2ed-1c46-4b1a-b4a8-f46bc60cadb5",
-    //   quiz_uuid: "37b527e0-37b4-4aa6-ac1d-cde49953880b",
-    //   game_name: null
+    // this.props.navigation.navigate("GameSummary", {
+    //   game: {
+    //     "uuid": "be5c42bf-df25-4146-8369-930f167daf66",
+    //     "game_name": "G",
+    //     "archived": false,
+    //     "quiz": "45f62b2d-586d-4001-881e-67e5f13266dd",
+    //     "host": "a7777139-4208-402f-8b33-c52bf73b8cdb",
+    //     "current_question": null,
+    //     "players": [
+    //       "7a110ac5-db85-47c7-aae1-a3fa5c339f18",
+    //       "9f158fd9-9e0c-49d2-87f3-ca156da52566"
+    //     ],
+    //     "unanswered_questions": [],
+    //     "answered_questions": [
+    //       "591bebe5-be3d-4af7-a140-ce5c36187b4b",
+    //       "95077ed4-a6e4-4660-a233-e71a8e48e358"
+    //     ]
+    //   },
+    //   host_ws: new WebSocket(`ws://${serverAddress.slice(7)}/ws/game/G/host`),
+    //   isHost: true,
     // })
     //DELETEME
   }

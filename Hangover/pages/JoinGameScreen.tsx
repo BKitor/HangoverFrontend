@@ -134,11 +134,15 @@ export default class JoinGameScreen extends React.Component<Props>{
   }
 
   _navigateToGame = () => {
-    this.props.navigation.navigate("PlayRound", {
-      game: this.state.game,
-      playerws: this.state.playerws,
-      player_uuid: this.state.player_uuid,
-    })
+    axios.get(`${serverAddress}/game/${this.state.game.game_name}`)
+      .then(res => this.setState({ game: res.data }))
+      .then(() => this.props.navigation.navigate("PlayRound", {
+        game: this.state.game,
+        playerws: this.state.playerws,
+        player_uuid: this.state.player_uuid,
+      }))
+      .catch(err => console.error(err))
+
   }
 
   render() {

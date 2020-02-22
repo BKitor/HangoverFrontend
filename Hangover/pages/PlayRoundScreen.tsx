@@ -17,7 +17,7 @@ export default class PlayRoundScreen extends React.Component<Props>{
   state = {
     game: null,
     answers: [], //{answertext:str, playe_uuid:uuid}
-    answerText: null,
+    answerText: "",
     player_uuid: null,
     question: { 'propmpt': '' }, // {uuid:'', prompt:''}
     playerws: null,
@@ -72,10 +72,10 @@ export default class PlayRoundScreen extends React.Component<Props>{
         })
     }
     else {
-      // TODO:navigate to end page
-      this.setState({
-        question: { 'prompt': 'game_over' },
-        questionUnlocked: false
+      this.state.playerws.close()
+      this.props.navigation.navigate("GameSummary",{
+        game:this.state.game,
+        isHost:false,
       })
     }
   }
@@ -150,6 +150,7 @@ export default class PlayRoundScreen extends React.Component<Props>{
         "player_uuid": this.state.player_uuid
       }
     }))
+    this.setState({answerText:""})
   }
 
   _getQuestionPrompt(questionUUID) {
@@ -168,7 +169,7 @@ export default class PlayRoundScreen extends React.Component<Props>{
       <KeyboardAvoidingView style={styles.keyboardAvoidingView} behavior={'position'}>
         <ImageBackground source={require('../assets/repeated-background.png')} style={styles.backgroundView}>
           <View style={styles.questionTypeContainer}>
-            <Text style={styles.questionTypeText}>Free Response</Text>
+            <Text style={styles.questionTypeText}>{this.state.game.game_name}</Text>
             <View style={styles.questionContainer}>
               <Text style={styles.questionText}>{this.state.question.prompt}</Text>
             </View>
@@ -183,7 +184,8 @@ export default class PlayRoundScreen extends React.Component<Props>{
               maxLength={20}
               placeholder={"Answer..."}
               onChangeText={(text) => this.setState({ answerText: text })}
-              onSubmitEditing={this.state.questionUnlocked ? () => this.submitAnswer() : () => { }} />
+              onSubmitEditing={this.state.questionUnlocked ? () => {this.submitAnswer()} : () => { }}
+              value={this.state.answerText} />
             <TouchableOpacity
               style={this.state.questionUnlocked ? styles.submitResponseButton_unlocked : styles.submitResponseButton_locked}
               onPress={this.state.questionUnlocked ? () => this.submitAnswer() : () => { }}>

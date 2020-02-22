@@ -121,6 +121,7 @@ export default class HomeScreen extends React.Component<Props> {
           game: this.state.game
         });
         break;
+      case 'game.end_game':break;
 
       default:
         console.debug('bad ws message')
