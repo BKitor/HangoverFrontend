@@ -41,7 +41,7 @@ export default class PlayRoundScreen extends React.Component<Props>{
 
       case 'game.lock_question':
         this.setState({
-          questionUnlocked: !this.state.questionUnlocked
+          questionUnlocked: false
         })
         break;
 
@@ -50,6 +50,10 @@ export default class PlayRoundScreen extends React.Component<Props>{
           this._changeQuestion(data.payload)
         }
         break;
+      case 'game.unlock_question':
+        this.setState({
+          questionUnlocked:true,
+        })
       default:
       // console.error(`bad WS message`);
       // console.error(event)
