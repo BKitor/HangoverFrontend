@@ -189,7 +189,7 @@ export default class PlayRoundScreen extends React.Component<Props>{
             <TouchableOpacity
               style={this.state.questionUnlocked ? styles.submitResponseButton_unlocked : styles.submitResponseButton_locked}
               onPress={this.state.questionUnlocked ? () => this.submitAnswer() : () => { }}>
-              <Text style={styles.submitResponseButtonText}>SUMBIT</Text>
+              <Text style={styles.submitResponseButtonText}>SUBMIT</Text>
             </TouchableOpacity>
           </View>
 
